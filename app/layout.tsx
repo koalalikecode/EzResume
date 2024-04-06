@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const inter = Inter({ subsets: ["latin"] });
 const bricol = Bricolage_Grotesque({ subsets: ["latin"] });
@@ -17,7 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={bricol.className}>{children}</body>
+      <body className={`${bricol.className} bg-base-100 text-base-content`}>
+        <GoogleOAuthProvider clientId="493659025557-onff1b6lrp62ave12movu641u8ljet4j.apps.googleusercontent.com">
+          {children}
+        </GoogleOAuthProvider>
+      </body>
     </html>
   );
 }

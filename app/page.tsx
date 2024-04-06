@@ -1,8 +1,16 @@
 import ResumeThumbnail from "@/components/shared/ResumeThumbnail";
 import Image from "next/image";
 import heartIcon from "@/icon/heart.svg";
+import AuthenContainer from "@/components/home/AuthenContainer";
+import { createClient } from "@/utils/supabase/server";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+
+  // console.log(data.user);
+
   return (
     <>
       <header className="max-w-7xl mx-auto px-8 py-5 flex items-center">
@@ -18,24 +26,27 @@ export default function Home() {
             Wall of love
           </a>
         </div>
-        <div className="flex gap-4">
-          <button className="btn btn-outline btn-accent btn-sm">Login</button>
-          <button className="btn btn-ghost btn-sm">Sign Up</button>
-        </div>
+        <AuthenContainer />
       </header>
       <main className="min-h-main">
         <section className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20 lg:items-start px-8 py-8 lg:py-20">
           <div className="flex flex-col gap-10 lg:gap-14 items-center justify-center text-center lg:text-left lg:items-start">
             <h1 className="font-extrabold text-4xl lg:text-6xl tracking-tight md:-mb-4 flex flex-col gap-3 items-center lg:items-start">
-              <button className="btn btn-base-100 md:btn-sm tracking-normal mb-4">
+              <a
+                href="https://github.com/koalalikecode/EzResume"
+                target="_blank"
+                className="btn btn-neutral md:btn-sm tracking-normal mb-4"
+              >
                 Star me on Github {">"}
-              </button>
+              </a>
               <span className="relative">Build your resume</span>
               <span className="whitespace-nowrap relative ">
                 <span className="mr-3 sm:mr-4 md:mr-5">in minutes,</span>
                 <span className=" relative whitespace-nowrap">
-                  <span className="absolute bg-neutral-content -left-2 -top-1 -bottom-1 -right-2 md:-left-3 md:-top-0 md:-bottom-0 md:-right-3 -rotate-1"></span>
-                  <span className="relative text-neutral">not hours</span>
+                  <span className="absolute bg-accent -left-2 -top-1 -bottom-1 -right-2 md:-left-3 md:-top-0 md:-bottom-0 md:-right-3 -rotate-1"></span>
+                  <span className="relative text-accent-content">
+                    not hours
+                  </span>
                 </span>
               </span>
             </h1>
@@ -45,7 +56,7 @@ export default function Home() {
             </p>
             <div className="space-y-4">
               <button
-                className="btn btn-accent group btn-wide plausible-event-name=Checkout"
+                className="btn btn-primary group btn-wide plausible-event-name=Checkout"
                 title="Go to ShipFast Checkout"
               >
                 Get your resume
@@ -60,13 +71,13 @@ export default function Home() {
           </div>
           <div className="relative max-md:-m-4 max-w-xl lg:w-full">
             <div className="absolute left-0 top-10">
-              <ResumeThumbnail className="w-[255px] min-w-[255px] h-[360px] bg-primary-orange" />
+              <ResumeThumbnail className="w-[255px] min-w-[255px] h-[360px] bg-error" />
             </div>
             <div className="absolute left-1/2 -translate-x-1/2 top-5">
-              <ResumeThumbnail className="w-[255px] min-w-[255px] h-[360px] bg-second-dark" />
+              <ResumeThumbnail className="w-[255px] min-w-[255px] h-[360px] bg-neutral" />
             </div>
             <div className="absolute right-0 top-0">
-              <ResumeThumbnail className="w-[255px] min-w-[255px] h-[360px] bg-black-blue" />
+              <ResumeThumbnail className="w-[255px] min-w-[255px] h-[360px] bg-secondary" />
             </div>
           </div>
         </section>
@@ -75,7 +86,11 @@ export default function Home() {
             {" "}
             Make with
             <Image src={heartIcon} alt="love" width={20} height={20} /> by
-            <a href="" target="_blank" className="link link-hover link-neutral">
+            <a
+              href="https://github.com/koalalikecode"
+              target="_blank"
+              className="link link-hover link-accent"
+            >
               koalalikecode
             </a>
           </p>

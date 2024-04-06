@@ -14,46 +14,47 @@ import {
   useTheme,
 } from "@mui/material";
 import { GoogleLogin } from "@react-oauth/google";
-import React, { useState } from "react";
-import { useAppDispatch } from "redux/hooks";
-import { userInfoUpdated } from "redux/userSlice";
-import { useLoginGoogleMutation, useVerifyUserMutation } from "redux/apiSlice";
+// import React, { useState } from "react";
+// import { useAppDispatch } from "redux/hooks";
+// import { userInfoUpdated } from "redux/userSlice";
+// import { useLoginGoogleMutation, useVerifyUserMutation } from "redux/apiSlice";
 import {
   checkConfirmPassword,
   checkNotEmpty,
   customInputAuthenTheme,
-} from "utils/input-validate";
+} from "@/utils/input-validate";
+import { useEffect, useState } from "react";
+import { handleSignInWithGoogle, signup } from "@/lib/authen/actions";
 
 export default function RegisterDialog({
   open,
   handleClose,
-  handleOpenLoginDialog,
+  handleOpenRegisterDialog,
+}: {
+  open: boolean;
+  handleClose: () => void;
+  handleOpenRegisterDialog: () => void;
 }) {
   const outerTheme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [userName, setUserName] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
-  const dispatch = useAppDispatch();
-  const [loginGoogle] = useLoginGoogleMutation();
-  const [verifyUser] = useVerifyUserMutation();
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const responseMessage = async (credentialResponse) => {
+  const handleRegister = () => {
+    const formData = new FormData();
+    formData.append("email", userName);
+    formData.append("password", password);
+    signup(formData);
+  };
+  // const dispatch = useAppDispatch();
+  // const [loginGoogle] = useLoginGoogleMutation();
+  // const [verifyUser] = useVerifyUserMutation();
+
+  const responseMessage = async (credentialResponse: any) => {
     if (credentialResponse.credential != null) {
-      const response = await loginGoogle(credentialResponse).unwrap();
-      const { accessToken, refreshToken } = response.payload;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-
-      await verifyUser({ token: accessToken })
-        .unwrap()
-        .then((user) => {
-          dispatch(userInfoUpdated({ path: "userId", value: user._id }));
-          dispatch(userInfoUpdated({ path: "name", value: user.name }));
-          dispatch(userInfoUpdated({ path: "email", value: user.email }));
-          dispatch(userInfoUpdated({ path: "image", value: user.image }));
-        });
+      handleSignInWithGoogle(credentialResponse);
     }
     handleClose();
   };
@@ -78,8 +79,8 @@ export default function RegisterDialog({
         onClose={handleClose}
         sx={{
           "& .MuiDialog-paper": {
-            backgroundColor: "#282a36",
-            color: "#f8f8f2",
+            backgroundColor: "oklch(17.8606% 0.034249 265.754874)",
+            color: "oklch(84.1536% 0.007965 265.754874)",
             maxWidth: "650px",
           },
         }}
@@ -89,7 +90,7 @@ export default function RegisterDialog({
           <span>Create an account</span>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText className="!text-primary-light w-[600px]">
+          <DialogContentText className="!text-neutral-content w-[600px]">
             Please enter your personal information to create an account.
           </DialogContentText>
           <ThemeProvider theme={customInputAuthenTheme(outerTheme)}>
@@ -207,13 +208,13 @@ export default function RegisterDialog({
               />
             </div>
           </ThemeProvider>
-          <DialogContentText className="!text-primary-light !mt-4">
+          <DialogContentText className="!text-neutral-content !mt-4">
             Already have an account?{" "}
             <button
-              className="text-primary-pink hover:underline"
+              className="link link-hover link-accent"
               onClick={() => {
                 handleClose();
-                handleOpenLoginDialog();
+                handleOpenRegisterDialog();
               }}
             >
               Login here
@@ -221,8 +222,20 @@ export default function RegisterDialog({
           </DialogContentText>
         </DialogContent>
         <DialogActions className="!px-6 !pb-4 gap-4 items-center">
-          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-          <button className="text-primary-white px-6 py-1.5 rounded-[4px] border-primary-light border hover:text-primary-pink hover:border-primary-pink duration-200">
+          <button id="google-btn">
+            <GoogleLogin
+              onSuccess={responseMessage}
+              onError={errorMessage}
+
+              // size="medium"
+              // shape="pill"
+              // theme="filled_blue"
+            />
+          </button>
+          <button
+            className="btn btn-accent btn-sm btn-outline"
+            onClick={handleRegister}
+          >
             Register
           </button>
         </DialogActions>

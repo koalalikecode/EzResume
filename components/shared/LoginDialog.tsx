@@ -13,45 +13,49 @@ import {
   ThemeProvider,
   useTheme,
 } from "@mui/material";
-import { GoogleLogin } from "@react-oauth/google";
+// import { GoogleLogin } from "@react-oauth/google";
 import React, { useState } from "react";
-import { useAppDispatch } from "redux/hooks";
-import { userInfoUpdated } from "redux/userSlice";
-import { useLoginGoogleMutation, useVerifyUserMutation } from "redux/apiSlice";
-import { customInputAuthenTheme } from "utils/input-validate";
+// import { useAppDispatch } from "redux/hooks";
+// import { userInfoUpdated } from "redux/userSlice";
+// import { useLoginGoogleMutation, useVerifyUserMutation } from "redux/apiSlice";
+import { customInputAuthenTheme } from "@/utils/input-validate";
 
 export default function LoginDialog({
   open,
   handleClose,
-  handleOpenRegisterDialog,
+  handleOpenLoginDialog,
+}: {
+  open: boolean;
+  handleClose: () => void;
+  handleOpenLoginDialog: () => void;
 }) {
   const outerTheme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useAppDispatch();
-  const [loginGoogle] = useLoginGoogleMutation();
-  const [verifyUser] = useVerifyUserMutation();
+  // const dispatch = useAppDispatch();
+  // const [loginGoogle] = useLoginGoogleMutation();
+  // const [verifyUser] = useVerifyUserMutation();
 
-  const responseMessage = async (credentialResponse) => {
-    if (credentialResponse.credential != null) {
-      const response = await loginGoogle(credentialResponse).unwrap();
-      const { accessToken, refreshToken } = response.payload;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+  // const responseMessage = async (credentialResponse) => {
+  //   if (credentialResponse.credential != null) {
+  //     const response = await loginGoogle(credentialResponse).unwrap();
+  //     const { accessToken, refreshToken } = response.payload;
+  //     localStorage.setItem("accessToken", accessToken);
+  //     localStorage.setItem("refreshToken", refreshToken);
 
-      await verifyUser({ token: accessToken })
-        .unwrap()
-        .then((user) => {
-          dispatch(userInfoUpdated({ path: "userId", value: user._id }));
-          dispatch(userInfoUpdated({ path: "name", value: user.name }));
-          dispatch(userInfoUpdated({ path: "email", value: user.email }));
-          dispatch(userInfoUpdated({ path: "image", value: user.image }));
-        });
-    }
-    handleClose();
-  };
-  const errorMessage = () => {
-    console.log("Error");
-  };
+  //     await verifyUser({ token: accessToken })
+  //       .unwrap()
+  //       .then((user) => {
+  //         dispatch(userInfoUpdated({ path: "userId", value: user._id }));
+  //         dispatch(userInfoUpdated({ path: "name", value: user.name }));
+  //         dispatch(userInfoUpdated({ path: "email", value: user.email }));
+  //         dispatch(userInfoUpdated({ path: "image", value: user.image }));
+  //       });
+  //   }
+  //   handleClose();
+  // };
+  // const errorMessage = () => {
+  //   console.log("Error");
+  // };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -67,8 +71,8 @@ export default function LoginDialog({
         onClose={handleClose}
         sx={{
           "& .MuiDialog-paper": {
-            backgroundColor: "#282a36",
-            color: "#f8f8f2",
+            backgroundColor: "oklch(17.8606% 0.034249 265.754874)",
+            color: "oklch(84.1536% 0.007965 265.754874)",
             maxWidth: "650px",
           },
         }}
@@ -78,7 +82,7 @@ export default function LoginDialog({
           <span>Login to your account</span>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText className="!text-primary-light">
+          <DialogContentText className="!text-neutral-content">
             Please enter your username and password associated with your account
             to login and access
           </DialogContentText>
@@ -123,13 +127,13 @@ export default function LoginDialog({
               }}
             />
           </ThemeProvider>
-          <DialogContentText className="!text-primary-light !mt-4">
+          <DialogContentText className="!text-neutral-content !mt-4">
             Not have an account?{" "}
             <button
-              className="text-primary-pink hover:underline"
+              className="link link-hover link-accent"
               onClick={() => {
                 handleClose();
-                handleOpenRegisterDialog();
+                handleOpenLoginDialog();
               }}
             >
               Sign up
@@ -137,10 +141,8 @@ export default function LoginDialog({
           </DialogContentText>
         </DialogContent>
         <DialogActions className="!px-6 !pb-4 gap-4 items-center">
-          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
-          <button className="text-primary-white px-6 py-1.5 rounded-[4px] border-primary-light border hover:text-primary-pink hover:border-primary-pink duration-200">
-            Login
-          </button>
+          {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
+          <button className="btn btn-accent btn-sm btn-outline">Login</button>
         </DialogActions>
       </Dialog>
     </div>
