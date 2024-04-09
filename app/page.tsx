@@ -8,6 +8,8 @@ export default async function Home() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
 
+  console.log();
+
   return (
     <>
       <header className="max-w-7xl mx-auto px-8 py-5 flex items-center">

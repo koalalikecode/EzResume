@@ -52,16 +52,20 @@ function AuthenContainer({ user }: { user: User | null }) {
           </>
         )}
       </div>
-      <LoginDialog
-        open={openLogin}
-        handleClose={handleCloseLoginDialog}
-        handleOpenRegisterDialog={handleOpenSignupDialog}
-      />
-      <RegisterDialog
-        open={openSignup}
-        handleClose={handleCloseSignupDialog}
-        handleOpenLoginDialog={handleOpenLoginDialog}
-      />
+      {!user && (
+        <>
+          <LoginDialog
+            open={openLogin}
+            handleClose={handleCloseLoginDialog}
+            handleOpenRegisterDialog={handleOpenSignupDialog}
+          />
+          <RegisterDialog
+            open={openSignup}
+            handleClose={handleCloseSignupDialog}
+            handleOpenLoginDialog={handleOpenLoginDialog}
+          />
+        </>
+      )}
     </React.Fragment>
   );
 }

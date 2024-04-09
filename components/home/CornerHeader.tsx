@@ -1,11 +1,6 @@
-import AvaButton from "components/shared/AvaButton";
-import { useAppSelector } from "redux/hooks";
+import AvaButton from "@/components/shared/AvaButton";
 
 function CornerHeader() {
-  const email = useAppSelector((state) => state.userInfo.email);
-  const userName = useAppSelector((state) => state.userInfo.userName);
-  const name = useAppSelector((state) => state.userInfo.name);
-  const isLogin: boolean = email.length > 0 || userName.length > 0;
   return (
     <div className="flex gap-4 items-center px-10">
       {isLogin ? (

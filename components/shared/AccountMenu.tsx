@@ -4,6 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { signout } from "@/lib/authen/actions";
+import Link from "next/link";
 
 function AccountMenu({
   anchorEl,
@@ -61,6 +62,14 @@ function AccountMenu({
           <Settings fontSize="small" sx={{ color: "oklch(var(--p))" }} />
         </ListItemIcon>
         Account Settings
+      </MenuItem>
+      <MenuItem onClick={handleClose}>
+        <Link href="/dashboard">
+          <ListItemIcon>
+            <Settings fontSize="small" sx={{ color: "oklch(var(--p))" }} />
+          </ListItemIcon>
+          Dashboard
+        </Link>
       </MenuItem>
       <MenuItem onClick={handleLogout}>
         <ListItemIcon>
