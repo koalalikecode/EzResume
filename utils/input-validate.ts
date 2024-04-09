@@ -47,8 +47,8 @@ export const checkNotEmpty = (inputText: string): boolean => {
 };
 
 export const checkConfirmPassword = (
-  confirmPassword: string,
-  password: string
+  confirmPassword: string | null,
+  password: string | null
 ): boolean => {
   return password === confirmPassword;
 };

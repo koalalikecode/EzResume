@@ -13,51 +13,48 @@ import {
   ThemeProvider,
   useTheme,
 } from "@mui/material";
-// import { GoogleLogin } from "@react-oauth/google";
 import React, { useState } from "react";
-// import { useAppDispatch } from "redux/hooks";
-// import { userInfoUpdated } from "redux/userSlice";
-// import { useLoginGoogleMutation, useVerifyUserMutation } from "redux/apiSlice";
 import { customInputAuthenTheme } from "@/utils/input-validate";
+import { GoogleLogin } from "@react-oauth/google";
+import { handleSignInWithGoogle, login } from "@/lib/authen/actions";
 
 export default function LoginDialog({
   open,
   handleClose,
-  handleOpenLoginDialog,
+  handleOpenRegisterDialog,
 }: {
   open: boolean;
   handleClose: () => void;
-  handleOpenLoginDialog: () => void;
+  handleOpenRegisterDialog: () => void;
 }) {
   const outerTheme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
-  // const dispatch = useAppDispatch();
-  // const [loginGoogle] = useLoginGoogleMutation();
-  // const [verifyUser] = useVerifyUserMutation();
-
-  // const responseMessage = async (credentialResponse) => {
-  //   if (credentialResponse.credential != null) {
-  //     const response = await loginGoogle(credentialResponse).unwrap();
-  //     const { accessToken, refreshToken } = response.payload;
-  //     localStorage.setItem("accessToken", accessToken);
-  //     localStorage.setItem("refreshToken", refreshToken);
-
-  //     await verifyUser({ token: accessToken })
-  //       .unwrap()
-  //       .then((user) => {
-  //         dispatch(userInfoUpdated({ path: "userId", value: user._id }));
-  //         dispatch(userInfoUpdated({ path: "name", value: user.name }));
-  //         dispatch(userInfoUpdated({ path: "email", value: user.email }));
-  //         dispatch(userInfoUpdated({ path: "image", value: user.image }));
-  //       });
-  //   }
-  //   handleClose();
-  // };
-  // const errorMessage = () => {
-  //   console.log("Error");
-  // };
+  const [userName, setUserName] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleLogin = () => {
+    const formData = new FormData();
+    if (userName !== null) {
+      formData.append("email", userName);
+    }
+    if (password !== null) {
+      formData.append("password", password);
+    }
+    login(formData);
+    handleClose();
+  };
+
+  const responseMessage = async (credentialResponse: any) => {
+    if (credentialResponse.credential != null) {
+      handleSignInWithGoogle(credentialResponse);
+    }
+    handleClose();
+  };
+  const errorMessage = () => {
+    console.log("Error");
+  };
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -95,6 +92,9 @@ export default function LoginDialog({
               type="text"
               fullWidth
               variant="standard"
+              onChange={(e) => {
+                setUserName(e.target.value);
+              }}
             />
             <TextField
               autoFocus
@@ -104,6 +104,9 @@ export default function LoginDialog({
               type={showPassword ? "text" : "password"}
               fullWidth
               variant="standard"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -133,7 +136,7 @@ export default function LoginDialog({
               className="link link-hover link-accent"
               onClick={() => {
                 handleClose();
-                handleOpenLoginDialog();
+                handleOpenRegisterDialog();
               }}
             >
               Sign up
@@ -141,8 +144,13 @@ export default function LoginDialog({
           </DialogContentText>
         </DialogContent>
         <DialogActions className="!px-6 !pb-4 gap-4 items-center">
-          {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
-          <button className="btn btn-accent btn-sm btn-outline">Login</button>
+          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+          <button
+            className="btn btn-accent btn-sm btn-outline"
+            onClick={handleLogin}
+          >
+            Login
+          </button>
         </DialogActions>
       </Dialog>
     </div>

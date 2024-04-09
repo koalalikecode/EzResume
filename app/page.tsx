@@ -3,13 +3,10 @@ import Image from "next/image";
 import heartIcon from "@/icon/heart.svg";
 import AuthenContainer from "@/components/home/AuthenContainer";
 import { createClient } from "@/utils/supabase/server";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export default async function Home() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
-
-  // console.log(data.user);
 
   return (
     <>
@@ -26,7 +23,7 @@ export default async function Home() {
             Wall of love
           </a>
         </div>
-        <AuthenContainer />
+        <AuthenContainer user={data.user} />
       </header>
       <main className="min-h-main">
         <section className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20 lg:items-start px-8 py-8 lg:py-20">

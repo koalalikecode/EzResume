@@ -29,28 +29,33 @@ import { handleSignInWithGoogle, signup } from "@/lib/authen/actions";
 export default function RegisterDialog({
   open,
   handleClose,
-  handleOpenRegisterDialog,
+  handleOpenLoginDialog,
 }: {
   open: boolean;
   handleClose: () => void;
-  handleOpenRegisterDialog: () => void;
+  handleOpenLoginDialog: () => void;
 }) {
   const outerTheme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
+  const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
 
   const handleRegister = () => {
     const formData = new FormData();
-    formData.append("email", userName);
-    formData.append("password", password);
+    if (email !== null) {
+      formData.append("email", email);
+    }
+    if (name !== null) {
+      formData.append("full_name", name);
+    }
+    if (password !== null) {
+      formData.append("password", password);
+    }
     signup(formData);
+    handleClose();
   };
-  // const dispatch = useAppDispatch();
-  // const [loginGoogle] = useLoginGoogleMutation();
-  // const [verifyUser] = useVerifyUserMutation();
 
   const responseMessage = async (credentialResponse: any) => {
     if (credentialResponse.credential != null) {
@@ -63,9 +68,6 @@ export default function RegisterDialog({
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleClickShowConfirmPassword = () =>
-    setShowConfirmPassword((show) => !show);
-
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -96,21 +98,21 @@ export default function RegisterDialog({
           <ThemeProvider theme={customInputAuthenTheme(outerTheme)}>
             <div className="flex gap-4">
               <TextField
-                error={userName != null && !checkNotEmpty(userName)}
+                error={email != null && !checkNotEmpty(email)}
                 autoFocus
                 margin="normal"
-                id="username"
-                label="User Name"
-                type="text"
+                id="email"
+                label="User email"
+                type="email"
                 fullWidth
                 variant="standard"
                 helperText={
-                  userName != null && !checkNotEmpty(userName)
+                  email != null && !checkNotEmpty(email)
                     ? "This is required field"
                     : ""
                 }
                 onChange={(e) => {
-                  setUserName(e.target.value);
+                  setEmail(e.target.value);
                 }}
               />
               <TextField
@@ -121,6 +123,14 @@ export default function RegisterDialog({
                 type="text"
                 fullWidth
                 variant="standard"
+                helperText={
+                  name != null && !checkNotEmpty(name)
+                    ? "This is required field"
+                    : ""
+                }
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
               />
             </div>
             <div className="flex gap-4">
@@ -172,7 +182,7 @@ export default function RegisterDialog({
                 margin="normal"
                 id="name"
                 label="Confirm password"
-                type={showConfirmPassword ? "text" : "password"}
+                type={showPassword ? "text" : "password"}
                 fullWidth
                 variant="standard"
                 helperText={
@@ -189,10 +199,10 @@ export default function RegisterDialog({
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowConfirmPassword}
+                        onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                       >
-                        {showConfirmPassword ? (
+                        {showPassword ? (
                           <Visibility
                             sx={{ color: "rgba(248, 248, 242, 0.7)" }}
                           />
@@ -214,7 +224,7 @@ export default function RegisterDialog({
               className="link link-hover link-accent"
               onClick={() => {
                 handleClose();
-                handleOpenRegisterDialog();
+                handleOpenLoginDialog();
               }}
             >
               Login here

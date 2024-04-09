@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import LoginDialog from "../shared/LoginDialog";
 import RegisterDialog from "../shared/RegisterDialog";
+import { createClient } from "@/utils/supabase/client";
+import { type User } from "@supabase/supabase-js";
+import AvaButton from "../shared/AvaButton";
 
-function AuthenContainer() {
+function AuthenContainer({ user }: { user: User | null }) {
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
+
   const handleCloseLoginDialog = () => {
     setOpenLogin(false);
   };
@@ -24,28 +28,39 @@ function AuthenContainer() {
   return (
     <React.Fragment>
       <div className="flex gap-4">
-        <button
-          className="btn btn-outline btn-primary btn-sm"
-          onClick={handleOpenLoginDialog}
-        >
-          Login
-        </button>
-        <button
-          className="btn btn-ghost btn-sm"
-          onClick={handleOpenSignupDialog}
-        >
-          Sign Up
-        </button>
+        {user ? (
+          <>
+            <AvaButton
+              name={user.user_metadata.full_name}
+              avaImageURL={user.user_metadata.avatar_url}
+            />
+          </>
+        ) : (
+          <>
+            <button
+              className="btn btn-outline btn-primary btn-sm"
+              onClick={handleOpenLoginDialog}
+            >
+              Login
+            </button>
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={handleOpenSignupDialog}
+            >
+              Sign Up
+            </button>
+          </>
+        )}
       </div>
       <LoginDialog
         open={openLogin}
         handleClose={handleCloseLoginDialog}
-        handleOpenLoginDialog={handleOpenLoginDialog}
+        handleOpenRegisterDialog={handleOpenSignupDialog}
       />
       <RegisterDialog
         open={openSignup}
         handleClose={handleCloseSignupDialog}
-        handleOpenRegisterDialog={handleOpenSignupDialog}
+        handleOpenLoginDialog={handleOpenLoginDialog}
       />
     </React.Fragment>
   );

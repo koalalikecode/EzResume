@@ -3,21 +3,18 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { useAppDispatch } from "redux/hooks";
-import { userInfoReset } from "redux/userSlice";
-import { useNavigate } from "react-router";
-import { resumesClear } from "redux/resumesSlice";
+import { signout } from "@/lib/authen/actions";
 
-function AccountMenu({ anchorEl, handleClose }) {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+function AccountMenu({
+  anchorEl,
+  handleClose,
+}: {
+  anchorEl: null | HTMLElement;
+  handleClose: () => void;
+}) {
   const open = Boolean(anchorEl);
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    dispatch(userInfoReset());
-    dispatch(resumesClear());
-    navigate("/");
+    signout();
   };
   return (
     <Menu
@@ -30,8 +27,8 @@ function AccountMenu({ anchorEl, handleClose }) {
         paper: {
           elevation: 0,
           sx: {
-            background: "#44475A",
-            color: "#F8F8F2",
+            background: "oklch(var(--n))",
+            color: "oklch(var(--nc))",
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
@@ -49,7 +46,7 @@ function AccountMenu({ anchorEl, handleClose }) {
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: "#44475A",
+              bgcolor: "oklch(var(--n))",
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
@@ -61,13 +58,13 @@ function AccountMenu({ anchorEl, handleClose }) {
     >
       <MenuItem onClick={handleClose}>
         <ListItemIcon>
-          <Settings fontSize="small" sx={{ color: "#8be9fd" }} />
+          <Settings fontSize="small" sx={{ color: "oklch(var(--p))" }} />
         </ListItemIcon>
         Account Settings
       </MenuItem>
       <MenuItem onClick={handleLogout}>
         <ListItemIcon>
-          <Logout fontSize="small" sx={{ color: "#8be9fd" }} />
+          <Logout fontSize="small" sx={{ color: "oklch(var(--p))" }} />
         </ListItemIcon>
         Logout
       </MenuItem>
