@@ -1,9 +1,10 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useAppDispatch } from "redux/hooks";
-import { resumeInputUpdated } from "redux/resumesSlice";
+// import { useAppDispatch } from "redux/hooks";
+// import { resumeInputUpdated } from "redux/resumesSlice";
 import "./styles/datepicker.css";
-import CalendarIcon from "icon/CalendarIcon";
+import CalendarIcon from "@/icon/CalendarIcon";
+import { ReactElement } from "react";
 
 const DatePickerInput = ({
   title,
@@ -16,9 +17,9 @@ const DatePickerInput = ({
   date: Date;
   path: string;
   value?: string;
-  children?;
+  children?: ReactElement;
 }) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   return (
     <div className="flex flex-col gap-2 flex-grow">
       <label htmlFor="">{title}</label>
@@ -29,8 +30,9 @@ const DatePickerInput = ({
           showMonthYearPicker
           dateFormat="MM/yyyy"
           value={value}
-          onChange={(date) =>
-            dispatch(resumeInputUpdated({ value: date.toString(), path: path }))
+          onChange={
+            () => {}
+            // dispatch(resumeInputUpdated({ value: date.toString(), path: path }))
           }
         >
           {children}

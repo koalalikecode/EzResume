@@ -16,17 +16,17 @@ const config: Config = {
       colors: {
         // "primary-dark": "#282a36",
         // "second-dark": "#44475a",
-        // "primary-light": "#f8f8f2",
+        // "base-content": "#f8f8f2",
         // "black-blue": "#6272a4",
-        // "primary-cyan": "#8be9fd",
+        // "primary-cyan": "oklch(var(--p))",
         // "primary-green": "#50fa7b",
-        // "transparent-green": "rgba(80, 250, 123, 0.50)",
-        // "transparent-pink": "rgba(255, 121, 198, 0.50)",
-        // "bg-pink": "rgba(255, 121, 198, 0.30)",
+        "transparent-green": "rgba(80, 250, 123, 0.50)",
+        "transparent-pink": "rgba(255, 121, 198, 0.50)",
+        // "accent": "rgba(255, 121, 198, 0.30)",
         // "primary-orange": "#ffb86c",
-        // "primary-pink": "#ff79c6",
-        // "primary-violet": "#bd93f9",
-        // "primary-red": "#ff5555",
+        // "accent": "#ff79c6",
+        // "secondary": "#bd93f9",
+        // "error": "#ff5555",
         // "primary-yellow": "#f1fa8c",
       },
       boxShadow: {
@@ -47,7 +47,7 @@ const config: Config = {
 
       //     secondary: "#f8f8f2",
 
-      //     accent: "#8be9fd",
+      //     accent: "oklch(var(--p))",
 
       //     neutral: "#ff79c6",
 
