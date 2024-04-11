@@ -10,13 +10,13 @@ import ResumeInput from "../ResumeInput";
 // } from "redux/resumesSlice";
 // import { useParams } from "react-router";
 import TrashIcon from "@/icon/TrashIcon";
+import { useAtom } from "jotai";
+import { skillAtom } from "@/atoms";
 
 function SocialLinkInputAccordion({ index }: { index: number }) {
   // const dispatch = useAppDispatch();
   // const { resumeId } = useParams();
-  // const socialLinkList = useAppSelector(
-  //   (state) => state.resumes[resumeId].data.socialLinks[index]
-  // );
+  // const socialLinkList = useAtom(skillAtom)
 
   return (
     <Accordion className="!bg-transparent border border-[#ccc] !text-base-content !m-0">

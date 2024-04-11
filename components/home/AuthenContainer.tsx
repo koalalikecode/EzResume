@@ -3,7 +3,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import LoginDialog from "../shared/LoginDialog";
 import RegisterDialog from "../shared/RegisterDialog";
-import { createClient } from "@/utils/supabase/client";
 import { type User } from "@supabase/supabase-js";
 import AvaButton from "../shared/AvaButton";
 

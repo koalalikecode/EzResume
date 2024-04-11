@@ -64,8 +64,7 @@ function RightBar() {
       </div>
       <TransformWrapper centerOnInit={true} maxScale={3}>
         <TransformComponent wrapperStyle={{ flexGrow: "1", width: "100%" }}>
-          {/* <ResumePreview ref={componentRef} /> */}
-          <div className="w-[700px] min-h-[905.88px] pl-16 pr-12 py-20 bg-white"></div>
+          <ResumePreview ref={componentRef} />
         </TransformComponent>
       </TransformWrapper>
     </section>

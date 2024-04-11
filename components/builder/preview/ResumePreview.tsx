@@ -1,39 +1,31 @@
-import { useParams } from "react-router";
-import { useAppSelector } from "redux/hooks";
-import { dateFormat } from "utils";
+import { dateFormat } from "@/utils";
 import "./index.css";
-import React from "react";
+import React, { ForwardRefRenderFunction, MutableRefObject } from "react";
+import { useAtomValue } from "jotai";
+import { personalInfoAtom, skillAtom } from "@/atoms";
 
-function ResumePreview(props, ref) {
-  const { resumeId } = useParams();
-  const name = useAppSelector((state) => state.resumes[resumeId].data.name);
-  const email = useAppSelector((state) => state.resumes[resumeId].data.email);
-  const phoneNumber = useAppSelector(
-    (state) => state.resumes[resumeId].data.phoneNumber
-  );
-  const skills = useAppSelector((state) => state.resumes[resumeId].data.skills);
-  const socialLinks = useAppSelector(
-    (state) => state.resumes[resumeId].data.socialLinks
-  );
-  const workExperiences = useAppSelector(
-    (state) => state.resumes[resumeId].data.workExperiences
-  );
-  const projects = useAppSelector(
-    (state) => state.resumes[resumeId].data.projects
-  );
+function ResumePreview(props: any, ref: MutableRefObject<null>) {
+  const personalInfo = useAtomValue(personalInfoAtom);
+  const skills = useAtomValue(skillAtom);
 
   return (
-    <div className="w-[700px] min-h-[905.88px] pl-16 pr-12 py-20 bg-white">
+    <div
+      id="resume-preview"
+      className="w-[700px] min-h-[905.88px] pl-16 pr-12 py-20 bg-white"
+    >
       <div ref={ref} className="bg-white text-black text-xs">
-        <h1 className="font-bold text-center text-lg">{name}</h1>
+        <h1 className="font-bold text-center text-lg">{personalInfo.name}</h1>
         <div className="flex justify-center items-center gap-1">
-          <a href={"mailto: " + email} className="text-[#0000ff] underline">
-            {email}
+          <a
+            href={"mailto: " + personalInfo.email}
+            className="text-[#0000ff] underline"
+          >
+            {personalInfo.email}
           </a>
-          {email && phoneNumber && <span>|</span>}
-          <span>{phoneNumber}</span>
+          {personalInfo.phone && personalInfo.phone && <span>|</span>}
+          <span>{personalInfo.phone}</span>
         </div>
-        <div className="flex flex-wrap justify-center items-center gap-1">
+        {/* <div className="flex flex-wrap justify-center items-center gap-1">
           {socialLinks.map((socialLink, index) => (
             <>
               <a
@@ -46,7 +38,7 @@ function ResumePreview(props, ref) {
               {socialLinks[index + 1] && <span>|</span>}
             </>
           ))}
-        </div>
+        </div> */}
         {skills.length > 0 && (
           <div className="mt-10">
             <h2 className="font-bold pl-2 border-b-[0.5px] border-b-black text-[15px]">
@@ -64,7 +56,7 @@ function ResumePreview(props, ref) {
             </ul>
           </div>
         )}
-        {workExperiences.length > 0 && (
+        {/* {workExperiences.length > 0 && (
           <div className="mt-6">
             <h2 className="font-bold pl-2 border-b-[0.5px] border-b-black text-[15px]">
               Experience
@@ -91,8 +83,8 @@ function ResumePreview(props, ref) {
               ))}
             </div>
           </div>
-        )}
-        {projects.length > 0 && (
+        )} */}
+        {/* {projects.length > 0 && (
           <div className="mt-6">
             <h2 className="font-bold pl-2 border-b-[0.5px] border-b-black text-[15px]">
               Personal Projects
@@ -118,10 +110,12 @@ function ResumePreview(props, ref) {
               ))}
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
 }
 
-export default React.forwardRef(ResumePreview);
+export default React.forwardRef(
+  ResumePreview as ForwardRefRenderFunction<null, any>
+);

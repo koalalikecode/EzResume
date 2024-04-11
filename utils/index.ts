@@ -8,9 +8,12 @@ export const dateFormat = (date: string, formatString: string): string => {
 
 export const pdfExport = (id: string) => {
   const doc = new jsPDF("p", "px", [700, 905.88]);
-  doc.html(document.getElementById(id), {
-    callback: function (doc) {
-      doc.save();
-    },
-  });
+  const element = document.getElementById(id);
+  if (element) {
+    doc.html(element, {
+      callback: function (doc) {
+        doc.save();
+      },
+    });
+  }
 };

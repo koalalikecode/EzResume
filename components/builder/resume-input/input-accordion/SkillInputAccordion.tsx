@@ -3,20 +3,13 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ResumeInput from "../ResumeInput";
-// import { useAppDispatch, useAppSelector } from "redux/hooks";
-// import {
-//   resumeInputUpdated,
-//   resumeSectionGroupRemoved,
-// } from "redux/resumesSlice";
-// import { useParams } from "react-router";
 import TrashIcon from "@/icon/TrashIcon";
+import { useAtom } from "jotai";
+import { skillAtom } from "@/atoms";
+import { removeResumeSectionGroup, updateResumeInput } from "@/atoms/actions";
 
 function SkillInputAccordion({ index }: { index: number }) {
-  // const dispatch = useAppDispatch();
-  // const { resumeId } = useParams();
-  // const SkillGroupContent = useAppSelector(
-  //   (state) => state.resumes[resumeId].data.skills[index]
-  // );
+  const [skillGroups, setSkillGroups] = useAtom(skillAtom);
 
   return (
     <Accordion className="!bg-transparent border border-[#ccc] !text-base-content !m-0">
@@ -28,44 +21,40 @@ function SkillInputAccordion({ index }: { index: number }) {
       >
         <div
           className="hidden absolute top-1 -right-10 p-3 group-hover:block duration-200"
-          // onClick={() => {
-          //   dispatch(
-          //     resumeSectionGroupRemoved({
-          //       path: resumeId + `.data.skills`,
-          //       index: index,
-          //     })
-          //   );
-          // }}
+          onClick={() => {
+            const temp = removeResumeSectionGroup(skillGroups, index);
+            setSkillGroups(temp);
+          }}
         >
           <TrashIcon className="stroke-[#ccc] hover:stroke-error duration-200"></TrashIcon>
         </div>
-        {"Untitled Skills Group"}
+        {skillGroups[index].groupName || "Untitled Skills Group"}
       </AccordionSummary>
       <AccordionDetails>
         <div className="flex gap-2 items-center">
           <ResumeInput
             title="Group name"
             htmlFor={`skill-group-${index}`}
-            // onChange={(e) =>
-            //   dispatch(
-            //     resumeInputUpdated({
-            //       value: e.target.value,
-            //       path: resumeId + `.data.skills[${index}].groupName`,
-            //     })
-            //   )
-            // }
+            onChange={(e: any) => {
+              const temp = updateResumeInput(
+                skillGroups,
+                e.target.value,
+                `[${index}].groupName`
+              );
+              setSkillGroups(temp);
+            }}
           />
           <ResumeInput
             title="Skills"
             htmlFor={`skills-${index}`}
-            // onChange={(e) =>
-            //   dispatch(
-            //     resumeInputUpdated({
-            //       value: e.target.value,
-            //       path: resumeId + `.data.skills[${index}].groupSkills`,
-            //     })
-            //   )
-            // }
+            onChange={(e: any) => {
+              const temp = updateResumeInput(
+                skillGroups,
+                e.target.value,
+                `[${index}].groupSkills`
+              );
+              setSkillGroups(temp);
+            }}
           />
         </div>
       </AccordionDetails>
