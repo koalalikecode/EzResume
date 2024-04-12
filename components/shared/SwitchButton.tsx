@@ -11,7 +11,7 @@ export default function SwitchButton({
   color: string;
   label: string;
   checked: boolean;
-  handleChecked: () => void;
+  handleChecked: (e: any) => void;
 }) {
   const CustomSwitch = styled(Switch)(({ theme }) => ({
     "& .MuiSwitch-switchBase.Mui-checked": {

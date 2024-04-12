@@ -2,30 +2,25 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// import { useAppDispatch, useAppSelector } from "redux/hooks";
-// import {
-//   resumeInputUpdated,
-//   resumeSectionGroupRemoved,
-// } from "redux/resumesSlice";
-// import { useParams } from "react-router";
 import TrashIcon from "@/icon/TrashIcon";
 import ResumeInput from "../ResumeInput";
 import DatePickerInput from "../DatePicker";
 import ResumeTextEditor from "../ResumeTextEditor";
 import SwitchButton from "@/components/shared/SwitchButton";
+import { useAtom } from "jotai";
+import { workAtom } from "@/atoms";
+import { removeResumeSectionGroup, updateResumeInput } from "@/atoms/actions";
 
 function WorkInputAccordion({ index }: { index: number }) {
-  // const dispatch = useAppDispatch();
-  // const { resumeId } = useParams();
-  // const workGroupContent = useAppSelector(
-  //   (state) => state.resumes[resumeId].data.workExperiences[index]
-  // );
+  const [workList, setWorkList] = useAtom(workAtom);
+
   const titleContentGenerate = (): string => {
-    // if (workGroupContent.companyName && workGroupContent.position)
-    //   return workGroupContent.position + " at " + workGroupContent.companyName;
-    // else if (workGroupContent.position || workGroupContent.companyName) {
-    //   return workGroupContent.position || workGroupContent.companyName;
-    // }
+    const workContent = workList[index];
+    if (workContent.companyName && workContent.position)
+      return workContent.position + " at " + workContent.companyName;
+    else if (workContent.position || workContent.companyName) {
+      return workContent.position || workContent.companyName;
+    }
     return "Untitled Position";
   };
 
@@ -39,14 +34,9 @@ function WorkInputAccordion({ index }: { index: number }) {
       >
         <div
           className="hidden absolute top-1 -right-10 p-3 group-hover:block duration-200"
-          // onClick={() => {
-          //   dispatch(
-          //     resumeSectionGroupRemoved({
-          //       path: resumeId + `.data.workExperiences`,
-          //       index: index,
-          //     })
-          //   );
-          // }}
+          onClick={() => {
+            setWorkList(removeResumeSectionGroup(workList, index));
+          }}
         >
           <TrashIcon className="stroke-[#ccc] hover:stroke-error duration-200"></TrashIcon>
         </div>
@@ -57,54 +47,58 @@ function WorkInputAccordion({ index }: { index: number }) {
           <ResumeInput
             title="Company name"
             htmlFor={`company-${index}`}
-            // onChange={(e) =>
-            //   dispatch(
-            //     resumeInputUpdated({
-            //       value: e.target.value,
-            //       path:
-            //         resumeId + `.data.workExperiences[${index}].companyName`,
-            //     })
-            //   )
-            // }
+            onChange={(e) =>
+              setWorkList(
+                updateResumeInput(
+                  workList,
+                  e.target.value,
+                  `[${index}].companyName`
+                )
+              )
+            }
           />
           <ResumeInput
             title="Position"
             htmlFor={`position-${index}`}
-            // onChange={(e) =>
-            //   dispatch(
-            //     resumeInputUpdated({
-            //       value: e.target.value,
-            //       path: resumeId + `.data.workExperiences[${index}].position`,
-            //     })
-            //   )
-            // }
+            onChange={(e) =>
+              setWorkList(
+                updateResumeInput(
+                  workList,
+                  e.target.value,
+                  `[${index}].position`
+                )
+              )
+            }
           />
         </div>
         <div className="flex gap-2 items-center mt-5">
           <DatePickerInput
             title="Start Date"
-            date={new Date()}
-            path={`data.workExperiences[${index}].startDate`}
+            date={new Date(workList[index].startDate)}
+            path={`[${index}].startDate`}
+            state={workList}
+            setState={setWorkList}
           />
           <DatePickerInput
             title="End Date"
-            date={new Date()}
-            path={`data.workExperiences[${index}].endDate`}
-            value={"At Present"}
+            date={new Date(workList[index].endDate)}
+            path={`[${index}].endDate`}
+            value={workList[index].isWorking ? "At Present" : undefined}
+            state={workList}
+            setState={setWorkList}
           >
             <SwitchButton
               color={"#ff79c6"}
               label="Currently work here"
-              checked={true}
-              handleChecked={
-                () => {}
-                // dispatch(
-                //   resumeInputUpdated({
-                //     value: e.target.checked,
-                //     path:
-                //       resumeId + `.data.workExperiences[${index}].isWorking`,
-                //   })
-                // )
+              checked={workList[index].isWorking}
+              handleChecked={(e: any) =>
+                setWorkList(
+                  updateResumeInput(
+                    workList,
+                    e.target.checked,
+                    `[${index}].isWorking`
+                  )
+                )
               }
             />
           </DatePickerInput>
@@ -112,8 +106,10 @@ function WorkInputAccordion({ index }: { index: number }) {
         <div className="flex flex-col gap-2 mt-5">
           <label htmlFor="">Description</label>
           <ResumeTextEditor
-            value={""}
-            path={`.data.workExperiences[${index}].description`}
+            value={workList[index].description}
+            path={`[${index}].description`}
+            state={workList}
+            setState={setWorkList}
           />
         </div>
       </AccordionDetails>

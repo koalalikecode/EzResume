@@ -3,20 +3,13 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ResumeInput from "../ResumeInput";
-// import { useAppDispatch, useAppSelector } from "redux/hooks";
-// import {
-//   resumeInputUpdated,
-//   resumeSectionGroupRemoved,
-// } from "redux/resumesSlice";
-// import { useParams } from "react-router";
 import TrashIcon from "@/icon/TrashIcon";
 import { useAtom } from "jotai";
-import { skillAtom } from "@/atoms";
+import { socialLinksAtom } from "@/atoms";
+import { removeResumeSectionGroup, updateResumeInput } from "@/atoms/actions";
 
 function SocialLinkInputAccordion({ index }: { index: number }) {
-  // const dispatch = useAppDispatch();
-  // const { resumeId } = useParams();
-  // const socialLinkList = useAtom(skillAtom)
+  const [socialLinkList, setSocialLinkList] = useAtom(socialLinksAtom);
 
   return (
     <Accordion className="!bg-transparent border border-[#ccc] !text-base-content !m-0">
@@ -28,44 +21,40 @@ function SocialLinkInputAccordion({ index }: { index: number }) {
       >
         <div
           className="hidden absolute top-1 -right-10 p-3 group-hover:block duration-200"
-          // onClick={() => {
-          //   dispatch(
-          //     resumeSectionGroupRemoved({
-          //       path: resumeId + `.data.socialLinks`,
-          //       index: index,
-          //     })
-          //   );
-          // }}
+          onClick={() => {
+            const temp = removeResumeSectionGroup(socialLinkList, index);
+            setSocialLinkList(temp);
+          }}
         >
           <TrashIcon className="stroke-[#ccc] hover:stroke-error duration-200"></TrashIcon>
         </div>
-        {"Untitled Social Link"}
+        {socialLinkList[index].label || "Untitled Social Link"}
       </AccordionSummary>
       <AccordionDetails>
         <div className="flex gap-2 items-center">
           <ResumeInput
             title="Label"
             htmlFor={`skill-group-${index}`}
-            // onChange={(e) =>
-            //   dispatch(
-            //     resumeInputUpdated({
-            //       value: e.target.value,
-            //       path: resumeId + `.data.socialLinks[${index}].label`,
-            //     })
-            //   )
-            // }
+            onChange={(e) => {
+              const temp = updateResumeInput(
+                socialLinkList,
+                e.target.value,
+                `[${index}].label`
+              );
+              setSocialLinkList(temp);
+            }}
           />
           <ResumeInput
             title="Href"
             htmlFor={`socialLinks-${index}`}
-            // onChange={(e) =>
-            //   dispatch(
-            //     resumeInputUpdated({
-            //       value: e.target.value,
-            //       path: resumeId + `.data.socialLinks[${index}].href`,
-            //     })
-            //   )
-            // }
+            onChange={(e) => {
+              const temp = updateResumeInput(
+                socialLinkList,
+                e.target.value,
+                `[${index}].href`
+              );
+              setSocialLinkList(temp);
+            }}
           />
         </div>
       </AccordionDetails>

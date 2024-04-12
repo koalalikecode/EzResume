@@ -1,4 +1,10 @@
-import { IPersonalInfo, IProject, ISkill } from "@/models/resumedata";
+import {
+  IPersonalInfo,
+  IProject,
+  ISkill,
+  ISocialLink,
+  IWorkExperience,
+} from "@/models/resumedata";
 import { atom } from "jotai";
 
 export const personalInfoAtom = atom<IPersonalInfo>({
@@ -16,4 +22,22 @@ export const skillAtom = atom<ISkill[]>([
   },
 ]);
 
-export const projectsAtom = atom<IProject[]>([]);
+export const socialLinksAtom = atom<ISocialLink[]>([
+  {
+    label: "",
+    href: "",
+  },
+]);
+
+export const workAtom = atom<IWorkExperience[]>([
+  {
+    companyName: "",
+    position: "",
+    startDate: new Date().toString(),
+    endDate: new Date().toString(),
+    description: "",
+    isWorking: false,
+  },
+]);
+
+export const projectAtom = atom<IProject[]>([]);

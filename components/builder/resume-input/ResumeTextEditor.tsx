@@ -4,10 +4,19 @@ import ReactQuill from "react-quill";
 // import { resumeInputUpdated } from "redux/resumesSlice";
 import "react-quill/dist/quill.snow.css";
 import "./styles/react-quill.css";
+import { updateResumeInput } from "@/atoms/actions";
 
-function ResumeTextEditor({ value, path }: { value: string; path: string }) {
-  // const dispatch = useAppDispatch();
-  // const { resumeId } = useParams();
+function ResumeTextEditor({
+  value,
+  path,
+  state,
+  setState,
+}: {
+  value: string;
+  path: string;
+  state: any;
+  setState: any;
+}) {
   const toolbarOptions = [
     ["bold", "italic", "underline"], // toggled buttons
     [{ list: "ordered" }, { list: "bullet" }],
@@ -19,16 +28,11 @@ function ResumeTextEditor({ value, path }: { value: string; path: string }) {
       modules={{
         toolbar: toolbarOptions,
       }}
-      // value={value}
+      value={value}
       tabIndex={2}
       className="w-full"
       onChange={(content) => {
-        // dispatch(
-        //   resumeInputUpdated({
-        //     value: content,
-        //     path: resumeId + path,
-        //   })
-        // );
+        setState(updateResumeInput(state, content, path));
       }}
     />
   );

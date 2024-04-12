@@ -8,18 +8,19 @@ function PlusIcon({
   return (
     <svg
       className={className}
-      width="26"
-      height="26"
-      viewBox="0 0 26 26"
-      fill={fill}
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
+      <path d="M1 7H7H1ZM13 7H7H13ZM7 7V1V7ZM7 7V13V7Z" fill={fill} />
       <path
-        d="M1 13H13M13 13H25M13 13V1M13 13V25"
+        d="M1 7H7M7 7H13M7 7V1M7 7V13"
         stroke={fill}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       />
     </svg>
   );

@@ -2,11 +2,18 @@ import { dateFormat } from "@/utils";
 import "./index.css";
 import React, { ForwardRefRenderFunction, MutableRefObject } from "react";
 import { useAtomValue } from "jotai";
-import { personalInfoAtom, skillAtom } from "@/atoms";
+import {
+  personalInfoAtom,
+  skillAtom,
+  socialLinksAtom,
+  workAtom,
+} from "@/atoms";
 
 function ResumePreview(props: any, ref: MutableRefObject<null>) {
   const personalInfo = useAtomValue(personalInfoAtom);
   const skills = useAtomValue(skillAtom);
+  const socialLinks = useAtomValue(socialLinksAtom);
+  const workExperiences = useAtomValue(workAtom);
 
   return (
     <div
@@ -25,7 +32,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
           {personalInfo.phone && personalInfo.phone && <span>|</span>}
           <span>{personalInfo.phone}</span>
         </div>
-        {/* <div className="flex flex-wrap justify-center items-center gap-1">
+        <div className="flex flex-wrap justify-center items-center gap-1">
           {socialLinks.map((socialLink, index) => (
             <>
               <a
@@ -38,7 +45,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
               {socialLinks[index + 1] && <span>|</span>}
             </>
           ))}
-        </div> */}
+        </div>
         {skills.length > 0 && (
           <div className="mt-10">
             <h2 className="font-bold pl-2 border-b-[0.5px] border-b-black text-[15px]">
@@ -56,7 +63,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
             </ul>
           </div>
         )}
-        {/* {workExperiences.length > 0 && (
+        {workExperiences.length > 0 && (
           <div className="mt-6">
             <h2 className="font-bold pl-2 border-b-[0.5px] border-b-black text-[15px]">
               Experience
@@ -83,7 +90,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
               ))}
             </div>
           </div>
-        )} */}
+        )}
         {/* {projects.length > 0 && (
           <div className="mt-6">
             <h2 className="font-bold pl-2 border-b-[0.5px] border-b-black text-[15px]">

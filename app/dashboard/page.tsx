@@ -5,6 +5,7 @@ import PlusIcon from "@/icon/PlusIcon";
 import MoreIcon from "@/icon/MoreIcon";
 import AuthenContainer from "@/components/home/AuthenContainer";
 import { createClient } from "@/utils/supabase/server";
+import NewResumeBtn from "@/components/dashboard/NewResumeBtn";
 
 async function Dashboard() {
   const supabase = createClient();
@@ -20,12 +21,7 @@ async function Dashboard() {
       <main className="max-w-[1560px] mx-auto">
         <div className="mt-8 px-10 pb-10 grid 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
           <div>
-            <Link href="/dashboard" className="relative group">
-              <ResumeThumbnail className="w-full aspect-[1/1.41] bg-neutral" />
-              <span className="w-16 h-16 bg-[#757575] rounded-full absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center group-hover:bg-accent duration-200">
-                <PlusIcon />
-              </span>
-            </Link>
+            <NewResumeBtn user={data.user} />
             <h3 className="font-semibold text-sm mt-2">Create new resume</h3>
             <span className="text-[#ccc] text-xs">
               Step by step build your resume
