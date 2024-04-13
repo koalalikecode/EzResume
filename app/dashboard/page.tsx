@@ -1,15 +1,15 @@
-import CornerHeader from "@/components/home/CornerHeader";
 import Link from "next/link";
-import ResumeThumbnail from "@/components/shared/ResumeThumbnail";
-import PlusIcon from "@/icon/PlusIcon";
-import MoreIcon from "@/icon/MoreIcon";
 import AuthenContainer from "@/components/home/AuthenContainer";
 import { createClient } from "@/utils/supabase/server";
 import NewResumeBtn from "@/components/dashboard/NewResumeBtn";
+import { Suspense } from "react";
+import ResumeList from "@/components/dashboard/resume-list";
+import Loading from "./loading";
 
 async function Dashboard() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
+
   return (
     <>
       <header className="max-w-[1560px] mx-auto px-8 py-5 flex items-center justify-between">
@@ -27,24 +27,9 @@ async function Dashboard() {
               Step by step build your resume
             </span>
           </div>
-          {[1, 2, 3].map((key) => {
-            return (
-              <div key={key}>
-                <Link href={`/resume/build/${key}`} className="relative group">
-                  <ResumeThumbnail className="w-full aspect-[1/1.41] bg-warning" />
-                </Link>
-                <div className="flex justify-between items-center mt-2 pr-2">
-                  <div>
-                    <h3 className="font-semibold text-sm">Resume Name</h3>
-                    <span className="text-[#ccc] text-xs">
-                      Last updated 2 days ago
-                    </span>
-                  </div>
-                  <MoreIcon className="cursor-pointer" />
-                </div>
-              </div>
-            );
-          })}
+          <Suspense fallback={<Loading />}>
+            <ResumeList />
+          </Suspense>
         </div>
       </main>
     </>
