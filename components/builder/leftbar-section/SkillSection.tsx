@@ -1,7 +1,7 @@
 import SkillIcon from "@/icon/SkillIcon";
 import SkillInputAccordion from "../resume-input/input-accordion/SkillInputAccordion";
 import PlusIcon from "@/icon/PlusIcon";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { skillAtom } from "@/atoms";
 
 function SkillSection() {

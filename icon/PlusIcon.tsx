@@ -18,9 +18,9 @@ function PlusIcon({
       <path
         d="M1 7H7M7 7H13M7 7V1M7 7V13"
         stroke={fill}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

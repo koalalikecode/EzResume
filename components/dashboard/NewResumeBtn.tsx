@@ -15,8 +15,9 @@ function NewResumeBtn({ user }: { user: any }) {
         "Content-Type": "application/json",
       },
     });
-    const { id } = await response.json();
-    router.push("/resume");
+    const id = await response.json();
+
+    router.push("/resume/" + id);
   }
   return (
     <div className="relative group cursor-pointer" onClick={handleCreateResume}>

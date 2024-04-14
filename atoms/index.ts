@@ -40,4 +40,13 @@ export const workAtom = atom<IWorkExperience[]>([
   },
 ]);
 
+export const resumeAtom = atom((get) => ({
+  info: get(personalInfoAtom),
+  skills: get(skillAtom),
+  links: get(socialLinksAtom),
+  works: get(workAtom),
+}));
+
+export const isSyncAtom = atom<Boolean>(false);
+
 export const projectAtom = atom<IProject[]>([]);

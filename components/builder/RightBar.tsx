@@ -1,34 +1,16 @@
 "use client";
 import AvaButton from "@/components/shared/AvaButton";
 import HomeIcon from "@/icon/HomeIcon";
-import { useEffect, useRef, useState } from "react";
-// import { NavLink, useParams } from "react-router-dom";
+import { useRef } from "react";
 import ResumePreview from "./preview/ResumePreview";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useReactToPrint } from "react-to-print";
 import Link from "next/link";
-import { createClient } from "@/utils/supabase/client";
 import { type User } from "@supabase/supabase-js";
-// import { useAppDispatch, useAppSelector } from "redux/hooks";
-// import { resumeInputUpdated } from "redux/resumesSlice";
 
-function RightBar() {
-  const supabase = createClient();
-  const [user, setUser] = useState<User | null>(null);
+function RightBar({ user }: { user: User | null }) {
   const componentRef = useRef(null);
-  // const { resumeId } = useParams();
-  // const resumeName: string = useAppSelector(
-  //   (state) => state.resumes[resumeId].data.resumeName
-  // );
-  // const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    async function getUser() {
-      const { data, error } = await supabase.auth.getUser();
-      setUser(data.user);
-    }
-    getUser();
-  }, [user?.id]);
   const handlePrint = useReactToPrint({
     pageStyle: `@media print {
       @page {

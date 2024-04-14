@@ -1,21 +1,33 @@
-import { useInterval } from "hooks/useInterval";
-import { useState } from "react";
-import { useParams } from "react-router";
-import { useUpdateResumeMutation } from "redux/apiSlice";
-import { useAppSelector } from "redux/hooks";
-import lodash from "lodash";
+"use client";
 
-function IntervalHandleComponent() {
-  const { resumeId } = useParams();
-  const resumeContent = useAppSelector((state) => state.resumes[resumeId].data);
-  const [updateResume] = useUpdateResumeMutation();
-  const [resumeContentState, setResumeContentState] = useState(resumeContent);
+import { useAtom, useAtomValue } from "jotai";
+import { isSyncAtom, resumeAtom } from "@/atoms";
+import { useInterval } from "@/hooks/useInterval";
+import { useEffect } from "react";
+
+function IntervalHandleComponent({ resume }: { resume: any }) {
+  const resumeContent = useAtomValue(resumeAtom);
+  const [isSyncing, setIsSyncing] = useAtom(isSyncAtom);
+
+  useEffect(() => {
+    setIsSyncing(true);
+  }, [resumeContent]);
+
+  async function handleUpdateResume() {
+    await fetch("/api/resume/update", {
+      method: "PUT",
+      body: JSON.stringify({ id: resume.id, updateValues: resumeContent }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
 
   useInterval(async () => {
     try {
-      if (!lodash.isEqual(resumeContent, resumeContentState)) {
-        await updateResume({ resumeId, resumeContent });
-        setResumeContentState(resumeContent);
+      if (isSyncing) {
+        await handleUpdateResume();
+        setIsSyncing(false);
       }
     } catch (err) {
       console.error("Failed to update resume");
