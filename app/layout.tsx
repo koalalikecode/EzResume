@@ -4,7 +4,7 @@ import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const inter = Inter({ subsets: ["latin"] });
-const bricol = Bricolage_Grotesque({ subsets: ["latin"] });
+const bricol = Bricolage_Grotesque({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "EzResume",
