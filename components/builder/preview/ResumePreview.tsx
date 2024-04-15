@@ -4,6 +4,7 @@ import React, { ForwardRefRenderFunction, MutableRefObject } from "react";
 import { useAtomValue } from "jotai";
 import {
   personalInfoAtom,
+  projectAtom,
   skillAtom,
   socialLinksAtom,
   workAtom,
@@ -14,6 +15,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
   const skills = useAtomValue(skillAtom);
   const socialLinks = useAtomValue(socialLinksAtom);
   const workExperiences = useAtomValue(workAtom);
+  const projects = useAtomValue(projectAtom);
 
   return (
     <div
@@ -91,7 +93,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
             </div>
           </div>
         )}
-        {/* {projects.length > 0 && (
+        {projects.length > 0 && (
           <div className="mt-6">
             <h2 className="font-bold pl-2 border-b-[0.5px] border-b-black text-[15px]">
               Personal Projects
@@ -117,7 +119,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
               ))}
             </div>
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );

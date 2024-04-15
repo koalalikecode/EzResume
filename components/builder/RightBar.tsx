@@ -7,9 +7,14 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useReactToPrint } from "react-to-print";
 import Link from "next/link";
 import { type User } from "@supabase/supabase-js";
+import SyncIcon from "@/icon/sync-success.svg";
+import Image from "next/image";
+import { useAtomValue } from "jotai";
+import { isSyncAtom } from "@/atoms";
 
 function RightBar({ user }: { user: User | null }) {
   const componentRef = useRef(null);
+  const isSync = useAtomValue(isSyncAtom);
 
   const handlePrint = useReactToPrint({
     pageStyle: `@media print {
@@ -35,6 +40,14 @@ function RightBar({ user }: { user: User | null }) {
           />
         </div>
         <div className="flex items-center gap-6">
+          {isSync ? (
+            <div className="flex gap-2 items-center">
+              <span className="loading loading-spinner loading-xs text-secondary"></span>
+              <p className="text-sm">Saving...</p>
+            </div>
+          ) : (
+            <Image src={SyncIcon} alt="sync-success" width={22} height={22} />
+          )}
           <button className="btn btn-secondary btn-sm" onClick={handlePrint}>
             Download PDF
           </button>

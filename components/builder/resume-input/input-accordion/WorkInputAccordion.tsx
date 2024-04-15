@@ -47,6 +47,7 @@ function WorkInputAccordion({ index }: { index: number }) {
           <ResumeInput
             title="Company name"
             htmlFor={`company-${index}`}
+            value={workList[index].companyName}
             onChange={(e) =>
               setWorkList(
                 updateResumeInput(
@@ -60,6 +61,7 @@ function WorkInputAccordion({ index }: { index: number }) {
           <ResumeInput
             title="Position"
             htmlFor={`position-${index}`}
+            value={workList[index].position}
             onChange={(e) =>
               setWorkList(
                 updateResumeInput(

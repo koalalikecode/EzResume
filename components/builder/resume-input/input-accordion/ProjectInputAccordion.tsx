@@ -2,23 +2,16 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// import { useAppDispatch, useAppSelector } from "redux/hooks";
-// import {
-//   resumeInputUpdated,
-//   resumeSectionGroupRemoved,
-// } from "redux/resumesSlice";
-// import { useParams } from "react-router";
 import TrashIcon from "@/icon/TrashIcon";
 import ResumeInput from "../ResumeInput";
 import DatePickerInput from "../DatePicker";
 import ResumeTextEditor from "../ResumeTextEditor";
+import { useAtom } from "jotai";
+import { projectAtom } from "@/atoms";
+import { removeResumeSectionGroup, updateResumeInput } from "@/atoms/actions";
 
 function ProjectInputAccordion({ index }: { index: number }) {
-  // const dispatch = useAppDispatch();
-  // const { resumeId } = useParams();
-  // const projectContent = useAppSelector(
-  //   (state) => state.resumes[resumeId].data.projects[index]
-  // );
+  const [projectList, setProjectList] = useAtom(projectAtom);
 
   return (
     <Accordion className="!bg-transparent border border-[#ccc] !text-base-content !m-0">
@@ -31,12 +24,7 @@ function ProjectInputAccordion({ index }: { index: number }) {
         <div
           className="hidden absolute top-1 -right-10 p-3 group-hover:block duration-200"
           onClick={() => {
-            // dispatch(
-            //   resumeSectionGroupRemoved({
-            //     path: resumeId + `.data.projects`,
-            //     index: index,
-            //   })
-            // );
+            setProjectList(removeResumeSectionGroup(projectList, index));
           }}
         >
           <TrashIcon className="stroke-[#ccc] hover:stroke-error duration-200"></TrashIcon>
@@ -48,45 +36,53 @@ function ProjectInputAccordion({ index }: { index: number }) {
           <ResumeInput
             title="Project Name"
             htmlFor={`project-${index}`}
-            // onChange={(e) =>
-            //   dispatch(
-            //     resumeInputUpdated({
-            //       value: e.target.value,
-            //       path: resumeId + `.data.projects[${index}].name`,
-            //     })
-            //   )
-            // }
+            onChange={(e) =>
+              setProjectList(
+                updateResumeInput(
+                  projectList,
+                  e.target.value,
+                  `[${index}].name`
+                )
+              )
+            }
           />
           <ResumeInput
             title="Position"
             htmlFor={`position-${index}`}
-            // onChange={(e) =>
-            //   dispatch(
-            //     resumeInputUpdated({
-            //       value: e.target.value,
-            //       path: resumeId + `.data.projects[${index}].position`,
-            //     })
-            //   )
-            // }
+            onChange={(e) =>
+              setProjectList(
+                updateResumeInput(
+                  projectList,
+                  e.target.value,
+                  `[${index}].position`
+                )
+              )
+            }
           />
         </div>
         <div className="flex gap-2 items-center mt-5">
           <DatePickerInput
             title="Start Date"
-            date={new Date()}
-            path={`data.projects[${index}].startDate`}
+            date={new Date(projectList[index].startDate)}
+            path={`[${index}].startDate`}
+            state={projectList}
+            setState={setProjectList}
           />
           <DatePickerInput
             title="End Date"
-            date={new Date()}
-            path={`data.projects[${index}].endDate`}
+            date={new Date(projectList[index].endDate)}
+            path={`[${index}].endDate`}
+            state={projectList}
+            setState={setProjectList}
           />
         </div>
         <div className="flex flex-col gap-2 mt-5">
           <label htmlFor="">Description</label>
           <ResumeTextEditor
-            value={""}
-            path={`.data.projects[${index}].description`}
+            value={projectList[index].description}
+            path={`[${index}].description`}
+            state={projectList}
+            setState={setProjectList}
           />
         </div>
       </AccordionDetails>

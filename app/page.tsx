@@ -78,21 +78,21 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        <footer className="absolute bottom-0 left-0 right-0">
-          <p className="flex gap-1 justify-center mb-4">
-            {" "}
-            Make with
-            <Image src={heartIcon} alt="love" width={20} height={20} /> by
-            <a
-              href="https://github.com/koalalikecode"
-              target="_blank"
-              className="link link-hover link-accent"
-            >
-              koalalikecode
-            </a>
-          </p>
-        </footer>
       </main>
+      <footer className="">
+        <p className="flex gap-1 justify-center mb-4">
+          {" "}
+          Make with
+          <Image src={heartIcon} alt="love" width={20} height={20} /> by
+          <a
+            href="https://github.com/koalalikecode"
+            target="_blank"
+            className="link link-hover link-accent"
+          >
+            koalalikecode
+          </a>
+        </p>
+      </footer>
     </>
   );
 }

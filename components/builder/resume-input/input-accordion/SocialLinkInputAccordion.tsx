@@ -35,6 +35,7 @@ function SocialLinkInputAccordion({ index }: { index: number }) {
           <ResumeInput
             title="Label"
             htmlFor={`skill-group-${index}`}
+            value={socialLinkList[index].label}
             onChange={(e) => {
               const temp = updateResumeInput(
                 socialLinkList,
@@ -47,6 +48,7 @@ function SocialLinkInputAccordion({ index }: { index: number }) {
           <ResumeInput
             title="Href"
             htmlFor={`socialLinks-${index}`}
+            value={socialLinkList[index].href}
             onChange={(e) => {
               const temp = updateResumeInput(
                 socialLinkList,

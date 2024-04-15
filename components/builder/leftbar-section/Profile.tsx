@@ -16,6 +16,7 @@ function Profile() {
         <ResumeInput
           title="Full name"
           htmlFor="fullname"
+          value={personalInfo.name}
           onChange={(e) => {
             setPersonalInfo({
               ...personalInfo,
@@ -26,6 +27,7 @@ function Profile() {
         <ResumeInput
           title="Email address"
           htmlFor="email"
+          value={personalInfo.email}
           onChange={(e) => {
             setPersonalInfo({
               ...personalInfo,
@@ -37,6 +39,7 @@ function Profile() {
           <ResumeInput
             title="Phone number"
             htmlFor="phone"
+            value={personalInfo.phone}
             onChange={(e) => {
               setPersonalInfo({
                 ...personalInfo,
@@ -47,6 +50,7 @@ function Profile() {
           <ResumeInput
             title="Website"
             htmlFor="website"
+            value={personalInfo.website}
             onChange={(e) => {
               setPersonalInfo({
                 ...personalInfo,

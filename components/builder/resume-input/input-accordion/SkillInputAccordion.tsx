@@ -35,6 +35,7 @@ function SkillInputAccordion({ index }: { index: number }) {
           <ResumeInput
             title="Group name"
             htmlFor={`skill-group-${index}`}
+            value={skillGroups[index].groupName}
             onChange={(e: any) => {
               const temp = updateResumeInput(
                 skillGroups,
@@ -47,6 +48,7 @@ function SkillInputAccordion({ index }: { index: number }) {
           <ResumeInput
             title="Skills"
             htmlFor={`skills-${index}`}
+            value={skillGroups[index].groupSkills}
             onChange={(e: any) => {
               const temp = updateResumeInput(
                 skillGroups,

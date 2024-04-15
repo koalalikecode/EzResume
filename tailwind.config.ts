@@ -34,7 +34,7 @@ const config: Config = {
         "pink-shadow": "0px 0px 40px 45px rgba(255, 121, 198, 0.50)",
       },
       minHeight: {
-        main: "calc(100vh - 80px)",
+        main: "calc(100vh - 80px - 24px)",
       },
     },
   },
