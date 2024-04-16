@@ -8,7 +8,7 @@ import {
 import { atom } from "jotai";
 
 export const personalInfoAtom = atom<IPersonalInfo>({
-  resumeName: "",
+  resumeName: "Untitled Resume",
   name: "",
   email: "",
   phone: "",

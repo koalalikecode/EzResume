@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
   const { data: resumes, error } = await supabase
     .from("resume")
     .select()
+    .order("updated_at", { ascending: false })
     .eq("uid", uid);
 
   if (resumes) return Response.json(resumes);

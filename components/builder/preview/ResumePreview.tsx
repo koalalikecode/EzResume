@@ -23,8 +23,10 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
       className="w-[700px] min-h-[905.88px] pl-16 pr-12 py-20 bg-white"
     >
       <div ref={ref} className="bg-white text-black text-xs">
-        <h1 className="font-bold text-center text-lg">{personalInfo.name}</h1>
-        <div className="flex justify-center items-center gap-1">
+        <h1 className="font-semibold text-center text-lg uppercase">
+          {personalInfo.name}
+        </h1>
+        <div className="flex justify-center items-center gap-1 text-[11px]">
           <a
             href={"mailto: " + personalInfo.email}
             className="text-[#0000ff] underline"
@@ -34,7 +36,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
           {personalInfo.phone && personalInfo.phone && <span>|</span>}
           <span>{personalInfo.phone}</span>
         </div>
-        <div className="flex flex-wrap justify-center items-center gap-1">
+        <div className="flex flex-wrap justify-center items-center gap-1 text-[11px]">
           {socialLinks.map((socialLink, index) => (
             <>
               <a

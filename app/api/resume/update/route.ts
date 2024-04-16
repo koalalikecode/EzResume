@@ -11,6 +11,7 @@ export async function PUT(request: Request) {
       skills: updateValues.skills,
       links: updateValues.links,
       works: updateValues.works,
+      updated_at: new Date().toISOString(),
     })
     .eq("id", id);
 

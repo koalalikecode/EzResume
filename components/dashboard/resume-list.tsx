@@ -31,7 +31,9 @@ async function ResumeList() {
             </Link>
             <div className="flex justify-between items-center mt-2 pr-2">
               <div>
-                <h3 className="font-semibold text-sm">Resume Name</h3>
+                <h3 className="font-semibold text-sm">
+                  {item.info.resumeName}
+                </h3>
                 <span className="text-[#ccc] text-xs">
                   Last updated 2 days ago
                 </span>

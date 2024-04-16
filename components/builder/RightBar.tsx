@@ -9,12 +9,14 @@ import Link from "next/link";
 import { type User } from "@supabase/supabase-js";
 import SyncIcon from "@/icon/sync-success.svg";
 import Image from "next/image";
-import { useAtomValue } from "jotai";
-import { isSyncAtom } from "@/atoms";
+import { useAtom, useAtomValue } from "jotai";
+import { isSyncAtom, personalInfoAtom } from "@/atoms";
+import { updateResumeInput } from "@/atoms/actions";
 
 function RightBar({ user }: { user: User | null }) {
   const componentRef = useRef(null);
   const isSync = useAtomValue(isSyncAtom);
+  const [resumeInfo, setResumeInfo] = useAtom(personalInfoAtom);
 
   const handlePrint = useReactToPrint({
     pageStyle: `@media print {
@@ -36,7 +38,10 @@ function RightBar({ user }: { user: User | null }) {
           <input
             type="text"
             className="border-none outline-none bg-transparent"
-            value={"Resume name"}
+            value={resumeInfo.resumeName}
+            onChange={(e) =>
+              setResumeInfo({ ...resumeInfo, resumeName: e.target.value })
+            }
           />
         </div>
         <div className="flex items-center gap-6">
@@ -57,7 +62,7 @@ function RightBar({ user }: { user: User | null }) {
           />
         </div>
       </div>
-      <TransformWrapper centerOnInit={true} maxScale={3}>
+      <TransformWrapper centerOnInit={true} maxScale={3} minScale={0.8}>
         <TransformComponent wrapperStyle={{ flexGrow: "1", width: "100%" }}>
           <ResumePreview ref={componentRef} />
         </TransformComponent>

@@ -2,12 +2,19 @@ interface IResumeInput {
   title: string;
   htmlFor: string;
   value?: string;
+  className?: string;
   onChange?: (e: any) => void;
 }
 
-function ResumeInput({ title, htmlFor, value, onChange }: IResumeInput) {
+function ResumeInput({
+  title,
+  htmlFor,
+  value,
+  onChange,
+  className = "",
+}: IResumeInput) {
   return (
-    <div className="flex flex-col gap-2 flex-grow">
+    <div className={"flex flex-col gap-2 flex-grow " + className}>
       <label htmlFor={htmlFor}>{title}</label>
       <input
         type="text"

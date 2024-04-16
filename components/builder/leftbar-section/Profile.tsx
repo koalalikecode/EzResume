@@ -40,6 +40,7 @@ function Profile() {
             title="Phone number"
             htmlFor="phone"
             value={personalInfo.phone}
+            className="w-1/2"
             onChange={(e) => {
               setPersonalInfo({
                 ...personalInfo,
@@ -51,6 +52,7 @@ function Profile() {
             title="Website"
             htmlFor="website"
             value={personalInfo.website}
+            className="w-1/2"
             onChange={(e) => {
               setPersonalInfo({
                 ...personalInfo,

@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     .insert({
       uid: uid,
       info: {
-        resumeName: "",
+        resumeName: "Untitled Resume",
         name: "",
         email: "",
         phone: "",
