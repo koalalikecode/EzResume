@@ -1,11 +1,10 @@
 import PlusIcon from "@/icon/PlusIcon";
-// import { useAppDispatch, useAppSelector } from "redux/hooks";
-// import { resumeSectionGroupAdded } from "redux/resumesSlice";
-// import { useParams } from "react-router";
 import GlobeIcon from "@/icon/GlobeIcon";
-import SocialLinkInputAccordion from "../resume-input/input-accordion/SocialLinkInputAccordion";
 import { socialLinksAtom } from "@/atoms";
 import { useAtom } from "jotai";
+import ResumeInput from "../resume-input/ResumeInput";
+import { removeResumeSectionGroup, updateResumeInput } from "@/atoms/actions";
+import InputAccordion from "../resume-input/input-accordion";
 
 function SocialLink() {
   const [socialLinkList, setSocialLinkList] = useAtom(socialLinksAtom);
@@ -17,7 +16,44 @@ function SocialLink() {
       </div>
       <div className="flex flex-col gap-3 mt-6">
         {socialLinkList.map((item, index) => (
-          <SocialLinkInputAccordion index={index} key={index} />
+          <InputAccordion
+            key={`social-links-${index}`}
+            handleDelete={() => {
+              setSocialLinkList(
+                removeResumeSectionGroup(socialLinkList, index)
+              );
+            }}
+            title={item.label || "Untitled Social Link"}
+          >
+            <div className="flex gap-2 items-center">
+              <ResumeInput
+                title="Label"
+                htmlFor={`skill-group-${index}`}
+                value={item.label}
+                onChange={(e) => {
+                  const temp = updateResumeInput(
+                    socialLinkList,
+                    e.target.value,
+                    `[${index}].label`
+                  );
+                  setSocialLinkList(temp);
+                }}
+              />
+              <ResumeInput
+                title="Href"
+                htmlFor={`socialLinks-${index}`}
+                value={item.href}
+                onChange={(e) => {
+                  const temp = updateResumeInput(
+                    socialLinkList,
+                    e.target.value,
+                    `[${index}].href`
+                  );
+                  setSocialLinkList(temp);
+                }}
+              />
+            </div>
+          </InputAccordion>
         ))}
       </div>
       <button

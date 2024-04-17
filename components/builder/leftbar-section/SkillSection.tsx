@@ -1,8 +1,10 @@
 import SkillIcon from "@/icon/SkillIcon";
-import SkillInputAccordion from "../resume-input/input-accordion/SkillInputAccordion";
 import PlusIcon from "@/icon/PlusIcon";
 import { useAtomValue, useSetAtom } from "jotai";
 import { skillAtom } from "@/atoms";
+import InputAccordion from "../resume-input/input-accordion";
+import { removeResumeSectionGroup, updateResumeInput } from "@/atoms/actions";
+import ResumeInput from "../resume-input/ResumeInput";
 
 function SkillSection() {
   const skillGroups = useAtomValue(skillAtom);
@@ -16,7 +18,42 @@ function SkillSection() {
       </div>
       <div className="flex flex-col gap-3 mt-6">
         {skillGroups.map((item, index) => (
-          <SkillInputAccordion index={index} key={index} />
+          <InputAccordion
+            key={`skill-${index}`}
+            handleDelete={() => {
+              setSkillGroups(removeResumeSectionGroup(skillGroups, index));
+            }}
+            title={item.groupName || "Untitled Skills Group"}
+          >
+            <div className="flex gap-2 items-center">
+              <ResumeInput
+                title="Group name"
+                htmlFor={`skill-group-${index}`}
+                value={item.groupName}
+                onChange={(e: any) => {
+                  const temp = updateResumeInput(
+                    skillGroups,
+                    e.target.value,
+                    `[${index}].groupName`
+                  );
+                  setSkillGroups(temp);
+                }}
+              />
+              <ResumeInput
+                title="Skills"
+                htmlFor={`skills-${index}`}
+                value={item.groupSkills}
+                onChange={(e: any) => {
+                  const temp = updateResumeInput(
+                    skillGroups,
+                    e.target.value,
+                    `[${index}].groupSkills`
+                  );
+                  setSkillGroups(temp);
+                }}
+              />
+            </div>
+          </InputAccordion>
         ))}
       </div>
       <button
