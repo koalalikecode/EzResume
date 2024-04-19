@@ -37,6 +37,8 @@ export async function POST(request: Request) {
           isWorking: false,
         },
       ],
+      projects: [],
+      activity: "",
     })
     .select();
 

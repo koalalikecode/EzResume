@@ -1,4 +1,5 @@
 import {
+  activityAtom,
   personalInfoAtom,
   projectAtom,
   skillAtom,
@@ -13,9 +14,12 @@ export function useInitialState(resume: any) {
   const setSkill = useSetAtom(skillAtom);
   const setWork = useSetAtom(workAtom);
   const setProject = useSetAtom(projectAtom);
+  const setActivity = useSetAtom(activityAtom);
 
   setInfoState(resume.info);
   setSkill(resume.skills);
   setLink(resume.links);
   setWork(resume.works);
+  setProject(resume.projects);
+  setActivity(resume.activity);
 }

@@ -3,6 +3,7 @@ import "./index.css";
 import React, { ForwardRefRenderFunction, MutableRefObject } from "react";
 import { useAtomValue } from "jotai";
 import {
+  activityAtom,
   personalInfoAtom,
   projectAtom,
   skillAtom,
@@ -16,6 +17,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
   const socialLinks = useAtomValue(socialLinksAtom);
   const workExperiences = useAtomValue(workAtom);
   const projects = useAtomValue(projectAtom);
+  const activity = useAtomValue(activityAtom);
 
   return (
     <div
@@ -120,6 +122,17 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+        {activity.length > 0 && (
+          <div className="mt-6">
+            <h2 className="font-bold pl-2 border-b-[0.5px] border-b-black text-[15px]">
+              Activities
+            </h2>
+            <div
+              className="text-editor"
+              dangerouslySetInnerHTML={{ __html: activity }}
+            ></div>
           </div>
         )}
       </div>

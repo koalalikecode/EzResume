@@ -11,11 +11,13 @@ function ResumeTextEditor({
   path,
   state,
   setState,
+  onChange,
 }: {
   value: string;
   path: string;
-  state: any;
-  setState: any;
+  state?: any;
+  setState?: any;
+  onChange?: any;
 }) {
   const toolbarOptions = [
     ["bold", "italic", "underline"], // toggled buttons
@@ -31,9 +33,13 @@ function ResumeTextEditor({
       value={value}
       tabIndex={2}
       className="w-full"
-      onChange={(content) => {
-        setState(updateResumeInput(state, content, path));
-      }}
+      onChange={
+        onChange
+          ? onChange
+          : (content) => {
+              setState(updateResumeInput(state, content, path));
+            }
+      }
     />
   );
 }
