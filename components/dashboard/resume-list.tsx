@@ -2,6 +2,7 @@ import Link from "next/link";
 import ResumeThumbnail from "../shared/ResumeThumbnail";
 import MoreIcon from "@/icon/MoreIcon";
 import { createClient } from "@/utils/supabase/server";
+import ResumeListItem from "./resume-list-item";
 
 async function getResumeData(uid: string | undefined) {
   const res = await fetch("http://localhost:3000/api/resume/get?uid=" + uid);
@@ -26,20 +27,7 @@ async function ResumeList() {
       {resumeData.map((item: any, index: number) => {
         return (
           <div key={index}>
-            <Link href={`/resume/${item.id}`} className="relative group">
-              <ResumeThumbnail className="w-full aspect-[1/1.41] bg-warning" />
-            </Link>
-            <div className="flex justify-between items-center mt-2 pr-2">
-              <div>
-                <h3 className="font-semibold text-sm">
-                  {item.info.resumeName}
-                </h3>
-                <span className="text-[#ccc] text-xs">
-                  Last updated 2 days ago
-                </span>
-              </div>
-              <MoreIcon className="cursor-pointer" />
-            </div>
+            <ResumeListItem item={item} />
           </div>
         );
       })}
