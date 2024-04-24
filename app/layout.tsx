@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${bricol.className} bg-base-100 text-base-content`}>
-        <GoogleOAuthProvider clientId="493659025557-onff1b6lrp62ave12movu641u8ljet4j.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID!}>
           {children}
         </GoogleOAuthProvider>
       </body>

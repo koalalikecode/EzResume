@@ -1,11 +1,10 @@
-import Link from "next/link";
-import ResumeThumbnail from "../shared/ResumeThumbnail";
-import MoreIcon from "@/icon/MoreIcon";
 import { createClient } from "@/utils/supabase/server";
 import ResumeListItem from "./resume-list-item";
 
 async function getResumeData(uid: string | undefined) {
-  const res = await fetch("http://localhost:3000/api/resume/get?uid=" + uid);
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_BASE_URL + "/api/resume/get?uid=" + uid
+  );
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
 
