@@ -52,10 +52,10 @@ export default async function Home() {
               The resume builder tool with all you need to create professional
               resumes that will get you to be hired $.
             </p>
-            <Link href={data.user ? "/dashboard" : ""} className="space-y-4">
+            <Link href={"/dashboard"} className="space-y-4">
               <button
                 className="btn btn-primary group btn-wide plausible-event-name=Checkout"
-                title="Go to ShipFast Checkout"
+                title="Go to your dashboard"
               >
                 Get your resume
               </button>

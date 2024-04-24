@@ -10,6 +10,16 @@ async function Dashboard() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
 
+  if (!data.user)
+    return (
+      <h1 className="text-center mt-4">
+        You must login to go to this page, back to{" "}
+        <Link href="/" className="link link-hover link-primary">
+          homepage
+        </Link>
+      </h1>
+    );
+
   return (
     <>
       <header className="max-w-[1560px] mx-auto px-8 py-5 flex items-center justify-between">
