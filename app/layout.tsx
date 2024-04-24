@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 const bricol = Bricolage_Grotesque({ subsets: ["latin"], display: "swap" });
@@ -22,6 +23,7 @@ export default function RootLayout({
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID!}>
           {children}
         </GoogleOAuthProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

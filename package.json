@@ -16,6 +16,7 @@
     "@react-oauth/google": "^0.12.1",
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.42.0",
+    "@vercel/speed-insights": "^1.0.10",
     "jotai": "^2.8.0",
     "jotai-devtools": "^0.8.0",
     "jspdf": "^2.5.1",

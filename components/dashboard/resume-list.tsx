@@ -2,6 +2,8 @@ import { createClient } from "@/utils/supabase/server";
 import ResumeListItem from "./resume-list-item";
 
 async function getResumeData(uid: string | undefined) {
+  console.log(process.env.NEXT_PUBLIC_BASE_URL + "/api/resume/get?uid=" + uid);
+
   const res = await fetch(
     process.env.NEXT_PUBLIC_BASE_URL + "/api/resume/get?uid=" + uid
   );
