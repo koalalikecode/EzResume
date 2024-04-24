@@ -42,7 +42,14 @@ export default function DeleteConfirmPopup({
           <button className="btn btn-ghost" onClick={handleClose}>
             Cancel
           </button>
-          <button className="btn btn-error" onClick={handleClose} autoFocus>
+          <button
+            className="btn btn-error"
+            onClick={() => {
+              handleDeleteResume();
+              handleClose();
+            }}
+            autoFocus
+          >
             Delete
           </button>
         </DialogActions>

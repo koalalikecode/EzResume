@@ -19,6 +19,7 @@ function ProjectSection() {
       <div className="flex flex-col gap-3 mt-6">
         {projectList.map((item, index: number) => (
           <InputAccordion
+            id={`project-${index}`}
             key={`project-${index}`}
             handleDelete={() => {
               setProjectList(removeResumeSectionGroup(projectList, index));

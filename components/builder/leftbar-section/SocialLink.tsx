@@ -17,6 +17,7 @@ function SocialLink() {
       <div className="flex flex-col gap-3 mt-6">
         {socialLinkList.map((item, index) => (
           <InputAccordion
+            id={`social-links-${index}`}
             key={`social-links-${index}`}
             handleDelete={() => {
               setSocialLinkList(

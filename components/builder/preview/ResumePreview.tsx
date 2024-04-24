@@ -40,7 +40,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
         </div>
         <div className="flex flex-wrap justify-center items-center gap-1 text-[11px]">
           {socialLinks.map((socialLink, index) => (
-            <>
+            <React.Fragment key={"socialLink" + index}>
               <a
                 href={socialLink.href}
                 target="_blank"
@@ -49,7 +49,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
                 {socialLink.label}
               </a>
               {socialLinks[index + 1] && <span>|</span>}
-            </>
+            </React.Fragment>
           ))}
         </div>
         {skills.length > 0 && (

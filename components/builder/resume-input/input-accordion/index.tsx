@@ -6,12 +6,12 @@ import TrashIcon from "@/icon/TrashIcon";
 import { ReactNode } from "react";
 
 function InputAccordion({
-  key,
+  id,
   handleDelete,
   title,
   children,
 }: {
-  key: string;
+  id: string;
   handleDelete: () => void;
   title: string;
   children: ReactNode;
@@ -20,8 +20,8 @@ function InputAccordion({
     <Accordion className="!bg-transparent border border-[#ccc] !text-base-content !m-0">
       <AccordionSummary
         expandIcon={<ExpandMoreIcon className="text-base-content" />}
-        aria-controls={`${key}-content`}
-        id={`${key}-header`}
+        aria-controls={`${id}-content`}
+        id={`${id}-header`}
         className="group"
       >
         <div

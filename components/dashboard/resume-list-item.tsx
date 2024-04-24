@@ -7,9 +7,20 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteConfirmPopup from "./delete-confirm-popup";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 function ResumeListItem({ item }: { item: any }) {
   const [openConfirmPopup, setOpenConfirmPopup] = useState(false);
+  const router = useRouter();
+
+  async function handleDeleteResume() {
+    await fetch("/api/resume/delete?id=" + item.id, {
+      method: "DELETE",
+    });
+
+    router.refresh();
+  }
+
   return (
     <>
       <Link href={`/resume/${item.id}`} className="relative group">
@@ -53,7 +64,7 @@ function ResumeListItem({ item }: { item: any }) {
         handleClose={() => {
           setOpenConfirmPopup(false);
         }}
-        handleDeleteResume={() => {}}
+        handleDeleteResume={handleDeleteResume}
       />
     </>
   );

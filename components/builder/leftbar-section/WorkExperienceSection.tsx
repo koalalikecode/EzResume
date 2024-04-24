@@ -31,6 +31,7 @@ function WorkExperienceSection() {
         <div className="flex flex-col gap-3 mt-6">
           {workList.map((item, index: number) => (
             <InputAccordion
+              id={`work-${index}`}
               key={`work-${index}`}
               handleDelete={() => {
                 setWorkList(removeResumeSectionGroup(workList, index));

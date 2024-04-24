@@ -1,7 +1,8 @@
 import LeftBar from "@/components/builder/LeftBar";
 import RightBar from "@/components/builder/RightBar";
 import { createClient } from "@/utils/supabase/server";
-import { useRouter } from "next/router";
+import { Suspense } from "react";
+import ResumeInputSkeleton from "./loading";
 
 async function getResumeDataById(id: string | string[] | undefined) {
   const supabase = createClient();
@@ -20,8 +21,20 @@ async function ResumeBuiler({ params }: { params: { id: string } }) {
 
   return (
     <main className="max-w-[2000px] mx-auto flex h-screen">
-      <LeftBar resume={resume && resume[0]} />
-      <RightBar user={data.user} />
+      <Suspense fallback={<ResumeInputSkeleton />}>
+        <LeftBar resume={resume && resume[0]} />
+      </Suspense>
+
+      <Suspense
+        fallback={
+          <div className="flex-grow h-screen flex flex-col gap-4 py-4 px-8">
+            <div className="skeleton w-full h-10"></div>
+            <div className="skeleton w-full h-full"></div>
+          </div>
+        }
+      >
+        <RightBar user={data.user} />
+      </Suspense>
     </main>
   );
 }

@@ -3,6 +3,7 @@ import Image from "next/image";
 import heartIcon from "@/icon/heart.svg";
 import AuthenContainer from "@/components/home/AuthenContainer";
 import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
 
 export default async function Home() {
   const supabase = createClient();
@@ -51,20 +52,14 @@ export default async function Home() {
               The resume builder tool with all you need to create professional
               resumes that will get you to be hired $.
             </p>
-            <div className="space-y-4">
+            <Link href={data.user ? "/dashboard" : ""} className="space-y-4">
               <button
                 className="btn btn-primary group btn-wide plausible-event-name=Checkout"
                 title="Go to ShipFast Checkout"
               >
                 Get your resume
               </button>
-              {/* <p className="text-sm md:text-base flex justify-center items-center gap-2 md:text-sm">
-                <span>
-                  <span className="text-accent">$100 off</span> for the first
-                  2260 customers (14 left)
-                </span>
-              </p> */}
-            </div>
+            </Link>
           </div>
           <div className="relative max-md:-m-4 max-w-xl lg:w-full">
             <div className="absolute left-0 top-10">

@@ -19,6 +19,7 @@ function SkillSection() {
       <div className="flex flex-col gap-3 mt-6">
         {skillGroups.map((item, index) => (
           <InputAccordion
+            id={`skill-${index}`}
             key={`skill-${index}`}
             handleDelete={() => {
               setSkillGroups(removeResumeSectionGroup(skillGroups, index));
