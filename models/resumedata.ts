@@ -32,3 +32,10 @@ export interface IProject {
   endDate: string;
   description: string;
 }
+export interface IEducation {
+  name: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  isLearning: boolean;
+}

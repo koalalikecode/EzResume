@@ -39,6 +39,7 @@ export async function POST(request: Request) {
       ],
       projects: [],
       activity: "",
+      educations: [],
     })
     .select();
 

@@ -10,6 +10,7 @@ import IntervalHandleComponent from "../shared/IntervalHandleComponent";
 import { useEffect } from "react";
 import { useInitialState } from "@/hooks/useInitialState";
 import ActivitySection from "./leftbar-section/activity-section";
+import EducationSection from "./leftbar-section/education-section";
 
 function LeftBar({ resume }: { resume: any }) {
   useInitialState(resume);
@@ -25,6 +26,7 @@ function LeftBar({ resume }: { resume: any }) {
         <WorkExperienceSection />
         <ProjectSection />
         <ActivitySection />
+        <EducationSection />
       </section>
     </>
   );

@@ -4,6 +4,7 @@ import React, { ForwardRefRenderFunction, MutableRefObject } from "react";
 import { useAtomValue } from "jotai";
 import {
   activityAtom,
+  educationAtom,
   personalInfoAtom,
   projectAtom,
   skillAtom,
@@ -18,6 +19,7 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
   const workExperiences = useAtomValue(workAtom);
   const projects = useAtomValue(projectAtom);
   const activity = useAtomValue(activityAtom);
+  const educationList = useAtomValue(educationAtom);
 
   return (
     <div
@@ -133,6 +135,33 @@ function ResumePreview(props: any, ref: MutableRefObject<null>) {
               className="text-editor"
               dangerouslySetInnerHTML={{ __html: activity }}
             ></div>
+          </div>
+        )}
+        {educationList.length > 0 && (
+          <div className="mt-6">
+            <h2 className="font-bold pl-2 border-b-[0.5px] border-b-black text-[15px]">
+              Education
+            </h2>
+            <div className="flex flex-col gap-3">
+              {educationList.map((item, index) => (
+                <div key={index}>
+                  <div className="flex justify-between px-2">
+                    <h3 className="font-bold">{item.name}</h3>
+                    <h3 className="font-bold">
+                      {`${dateFormat(item.startDate, "MMM YYYY")}–${
+                        item.isLearning
+                          ? "Present"
+                          : dateFormat(item.endDate, "MMM YYYY")
+                      }`}
+                    </h3>
+                  </div>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: item.description }}
+                    className="text-editor"
+                  ></div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

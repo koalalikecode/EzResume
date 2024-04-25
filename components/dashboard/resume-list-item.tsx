@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteConfirmPopup from "./delete-confirm-popup";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import moment from "moment";
 
 function ResumeListItem({ item }: { item: any }) {
   const [openConfirmPopup, setOpenConfirmPopup] = useState(false);
@@ -29,7 +30,9 @@ function ResumeListItem({ item }: { item: any }) {
       <div className="flex justify-between items-center mt-2 pr-2">
         <div>
           <h3 className="font-semibold text-sm">{item.info.resumeName}</h3>
-          <span className="text-[#ccc] text-xs">Last updated 2 days ago</span>
+          <span className="text-[#ccc] text-xs">
+            Last updated {moment(item.updated_at).fromNow()}
+          </span>
         </div>
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="">

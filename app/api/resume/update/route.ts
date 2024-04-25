@@ -13,6 +13,7 @@ export async function PUT(request: Request) {
       works: updateValues.works,
       projects: updateValues.projects,
       activity: updateValues.activity,
+      educations: updateValues.educations,
       updated_at: new Date().toISOString(),
     })
     .eq("id", id);

@@ -1,4 +1,5 @@
 import {
+  IEducation,
   IPersonalInfo,
   IProject,
   ISkill,
@@ -44,6 +45,8 @@ export const projectAtom = atom<IProject[]>([]);
 
 export const activityAtom = atom<string>("");
 
+export const educationAtom = atom<IEducation[]>([]);
+
 export const resumeAtom = atom((get) => ({
   info: get(personalInfoAtom),
   skills: get(skillAtom),
@@ -51,6 +54,7 @@ export const resumeAtom = atom((get) => ({
   works: get(workAtom),
   projects: get(projectAtom),
   activity: get(activityAtom),
+  educations: get(educationAtom),
 }));
 
 export const isSyncAtom = atom<Boolean>(false);
