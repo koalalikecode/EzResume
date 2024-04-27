@@ -29,15 +29,15 @@ export default function LoginDialog({
 }) {
   const outerTheme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
-  const [userName, setUserName] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleLogin = () => {
     const formData = new FormData();
-    if (userName !== null) {
-      formData.append("email", userName);
+    if (email !== null) {
+      formData.append("email", email);
     }
     if (password !== null) {
       formData.append("password", password);
@@ -80,26 +80,26 @@ export default function LoginDialog({
         </DialogTitle>
         <DialogContent>
           <DialogContentText className="!text-neutral-content">
-            Please enter your username and password associated with your account
-            to login and access
+            Please enter your email and password associated with your account to
+            login and access
           </DialogContentText>
           <ThemeProvider theme={customInputAuthenTheme(outerTheme)}>
             <TextField
               autoFocus
               margin="normal"
-              id="name"
-              label="User Name"
-              type="text"
+              id="email"
+              label="Email"
+              type="email"
               fullWidth
               variant="standard"
               onChange={(e) => {
-                setUserName(e.target.value);
+                setEmail(e.target.value);
               }}
             />
             <TextField
               autoFocus
               margin="normal"
-              id="name"
+              id="password"
               label="Password"
               type={showPassword ? "text" : "password"}
               fullWidth

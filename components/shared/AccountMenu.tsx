@@ -10,9 +10,11 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 function AccountMenu({
   anchorEl,
   handleClose,
+  handleOpenProfile,
 }: {
   anchorEl: null | HTMLElement;
   handleClose: () => void;
+  handleOpenProfile: any;
 }) {
   const open = Boolean(anchorEl);
   const handleLogout = () => {
@@ -58,7 +60,7 @@ function AccountMenu({
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      <MenuItem onClick={handleClose}>
+      <MenuItem onClick={() => handleOpenProfile(true)}>
         <ListItemIcon>
           <Settings fontSize="small" sx={{ color: "oklch(var(--p))" }} />
         </ListItemIcon>

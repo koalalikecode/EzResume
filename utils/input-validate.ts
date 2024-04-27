@@ -16,6 +16,9 @@ export const customInputAuthenTheme = (outerTheme: Theme) =>
             "& label": {
               color: "var(--TextField-labelColor)",
             },
+            "& label.Mui-disabled": {
+              color: "var(--TextField-labelColor)",
+            },
             "& label.Mui-focused": {
               color: "var(--TextField-brandBorderFocusedColor)",
             },
@@ -26,6 +29,10 @@ export const customInputAuthenTheme = (outerTheme: Theme) =>
         styleOverrides: {
           root: {
             color: "var(--TextField-brandBorderColor)",
+            "& .Mui-disabled": {
+              color: "var(--TextField-labelColor)",
+              WebkitTextFillColor: "var(--TextField-labelColor) !important",
+            },
             "&:before": {
               borderBottom: "1px solid var(--TextField-brandBorderColor)",
             },
