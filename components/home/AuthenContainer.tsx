@@ -26,28 +26,27 @@ function AuthenContainer({ user }: { user: User | null }) {
 
   return (
     <React.Fragment>
-      <div className="flex gap-4">
-        {user ? (
-          <>
-            <AvaButton userId={user.id} />
-          </>
-        ) : (
-          <>
-            <button
-              className="btn btn-outline btn-primary btn-sm"
-              onClick={handleOpenLoginDialog}
-            >
-              Login
-            </button>
-            <button
-              className="btn btn-ghost btn-sm"
-              onClick={handleOpenSignupDialog}
-            >
-              Sign Up
-            </button>
-          </>
-        )}
-      </div>
+      {user ? (
+        <div className="flex">
+          <AvaButton userId={user.id} />
+        </div>
+      ) : (
+        <div className="flex gap-4">
+          <button
+            className="btn btn-outline btn-primary btn-sm"
+            onClick={handleOpenLoginDialog}
+          >
+            Login
+          </button>
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={handleOpenSignupDialog}
+          >
+            Sign Up
+          </button>
+        </div>
+      )}
+
       {!user && (
         <>
           <LoginDialog

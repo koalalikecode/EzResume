@@ -62,14 +62,14 @@ export default async function Home() {
             </Link>
           </div>
           <div className="relative max-md:-m-4 max-w-xl lg:w-full">
-            <div className="absolute left-0 top-10">
-              <ResumeThumbnail className="w-[255px] min-w-[255px] h-[360px] bg-error" />
+            <div className="absolute left-0 sm:top-10 top-6">
+              <ResumeThumbnail className="sm:w-[255px] sm:min-w-[255px] sm:h-[360px] w-[150px] min-w-[150px] h-[212px] bg-error" />
             </div>
-            <div className="absolute left-1/2 -translate-x-1/2 top-5">
-              <ResumeThumbnail className="w-[255px] min-w-[255px] h-[360px] bg-neutral" />
+            <div className="absolute left-1/2 -translate-x-1/2 sm:top-5 top-3">
+              <ResumeThumbnail className="sm:w-[255px] sm:min-w-[255px] sm:h-[360px] w-[150px] min-w-[150px] h-[212px] bg-neutral" />
             </div>
             <div className="absolute right-0 top-0">
-              <ResumeThumbnail className="w-[255px] min-w-[255px] h-[360px] bg-secondary" />
+              <ResumeThumbnail className="sm:w-[255px] sm:min-w-[255px] sm:h-[360px] w-[150px] min-w-[150px] h-[212px] bg-secondary" />
             </div>
           </div>
         </section>
