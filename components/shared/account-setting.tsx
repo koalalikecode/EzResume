@@ -5,29 +5,69 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import LoginIcon from "@mui/icons-material/Login";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import {
-  IconButton,
-  InputAdornment,
-  ThemeProvider,
-  useTheme,
-} from "@mui/material";
-import React, { useState } from "react";
+import { ThemeProvider, useTheme } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { customInputAuthenTheme } from "@/utils/input-validate";
-import { GoogleLogin } from "@react-oauth/google";
-import { handleSignInWithGoogle, login } from "@/lib/authen/actions";
+import { createClient } from "@/utils/supabase/client";
+import {
+  uniqueNamesGenerator,
+  Config,
+  adjectives,
+  colors,
+  animals,
+} from "unique-names-generator";
+import { useAtom } from "jotai";
+import { avatarAtom, usernameAtom } from "@/atoms";
+import Image from "next/image";
 
 export default function AccountSettingDialog({
   open,
   handleClose,
+  userId,
 }: {
   open: boolean;
   handleClose: () => void;
+  userId: string | undefined;
 }) {
   const outerTheme = useTheme();
-  const [ava, setAva] = useState<File | null>(null);
-  const [name, setName] = useState<string | null>(null);
+  const supabase = createClient();
+  const [ava, setAva] = useState<any>(null);
+  const [avaUrl, setAvaUrl] = useAtom(avatarAtom);
+  const [name, setName] = useAtom(usernameAtom);
+
+  const tempImgSrc = `https://api.dicebear.com/7.x/identicon/svg?rowColor=8be9fd,50fa7b,ffb86c,ff79c6,bd93f9,ff5555,f1fa8c&backgroundColor=44475a,f8f8f2,6272a4&seed=${name}`;
+
+  const handleSubmitInfo = async () => {
+    const config: Config = {
+      dictionaries: [adjectives, colors, animals],
+      separator: "_",
+    };
+
+    const nameFromSeed: string = uniqueNamesGenerator(config);
+    const { data, error } = await supabase.storage
+      .from("ava-image")
+      .upload(`public/${nameFromSeed}.png`, ava, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    const { data: link } = supabase.storage
+      .from("ava-image")
+      .getPublicUrl(`public/${nameFromSeed}.png`);
+
+    setAvaUrl(link.publicUrl);
+
+    await fetch("/api/user/update", {
+      method: "PUT",
+      body: JSON.stringify({
+        id: userId,
+        updateValues: { avatar: link.publicUrl, name: name },
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
 
   return (
     <div>
@@ -36,8 +76,8 @@ export default function AccountSettingDialog({
         onClose={handleClose}
         sx={{
           "& .MuiDialog-paper": {
-            backgroundColor: "oklch(17.8606% 0.034249 265.754874)",
-            color: "oklch(84.1536% 0.007965 265.754874)",
+            backgroundColor: "oklch(var(--b3))",
+            color: "oklch(var(--bc))",
             maxWidth: "650px",
           },
         }}
@@ -50,11 +90,28 @@ export default function AccountSettingDialog({
           <div className="flex items-center flex-col">
             <div className="avatar my-4">
               <div className="w-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                {avaUrl ? (
+                  <Image src={avaUrl} alt="avatar" width={80} height={80} />
+                ) : (
+                  <img src={tempImgSrc} alt="avatar" />
+                )}
               </div>
             </div>
             <input
               type="file"
+              accept="image/*" // Only accept image files
+              onChange={(e) => {
+                if (e.target.files) setAva(e.target.files[0]);
+                const reader = new FileReader();
+
+                reader.onloadend = function (e) {
+                  setAvaUrl(e?.target?.result as string);
+                };
+
+                if (e.target.files) {
+                  reader.readAsDataURL(e.target.files[0]);
+                }
+              }}
               className="file-input file-input-bordered file-input-primary file-input-xs w-full max-w-xs"
             />
           </div>
@@ -79,6 +136,7 @@ export default function AccountSettingDialog({
               id="name"
               label="Your full name"
               type="text"
+              value={name}
               fullWidth
               variant="standard"
               onChange={(e) => {
@@ -90,11 +148,11 @@ export default function AccountSettingDialog({
         <DialogActions className="!px-6 !pb-4 gap-1 items-center">
           <button
             className="btn btn-neutral btn-sm btn-outline"
-            onClick={() => {}}
+            onClick={handleClose}
           >
             Cancel
           </button>
-          <button className="btn btn-success btn-sm" onClick={() => {}}>
+          <button className="btn btn-success btn-sm" onClick={handleSubmitInfo}>
             Submit
           </button>
         </DialogActions>

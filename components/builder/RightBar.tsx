@@ -56,10 +56,7 @@ function RightBar({ user }: { user: User | null }) {
           <button className="btn btn-secondary btn-sm" onClick={handlePrint}>
             Download PDF
           </button>
-          <AvaButton
-            name={user?.user_metadata.full_name}
-            avaImageURL={user?.user_metadata.avatar_url}
-          />
+          <AvaButton userId={user?.id} />
         </div>
       </div>
       <TransformWrapper centerOnInit={true} maxScale={3} minScale={0.8}>

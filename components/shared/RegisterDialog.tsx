@@ -81,8 +81,8 @@ export default function RegisterDialog({
         onClose={handleClose}
         sx={{
           "& .MuiDialog-paper": {
-            backgroundColor: "oklch(17.8606% 0.034249 265.754874)",
-            color: "oklch(84.1536% 0.007965 265.754874)",
+            backgroundColor: "oklch(var(--b3))",
+            color: "oklch(var(--bc))",
             maxWidth: "650px",
           },
         }}

@@ -29,10 +29,7 @@ function AuthenContainer({ user }: { user: User | null }) {
       <div className="flex gap-4">
         {user ? (
           <>
-            <AvaButton
-              name={user.user_metadata.full_name}
-              avaImageURL={user.user_metadata.avatar_url}
-            />
+            <AvaButton userId={user.id} />
           </>
         ) : (
           <>
