@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AccountMenu from "./AccountMenu";
 import AccountSettingDialog from "./account-setting";
 import { useAtom } from "jotai";
-import { avatarAtom, usernameAtom } from "@/atoms";
+import { avatarAtom, emailAtom, usernameAtom } from "@/atoms";
 
 function AvaButton({ userId }: { userId: string | undefined }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -10,6 +10,7 @@ function AvaButton({ userId }: { userId: string | undefined }) {
     React.useState<boolean>(false);
   const [username, setUsername] = useAtom(usernameAtom);
   const [avatarURL, setAvatarURL] = useAtom(avatarAtom);
+  const [email, setEmail] = useAtom(emailAtom);
   const [imgSrc, setImgSrc] = useState("");
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,16 +32,19 @@ function AvaButton({ userId }: { userId: string | undefined }) {
     const user = await res.json();
     setUsername(user.full_name);
     setAvatarURL(user.avatar);
-    console.log(user.avatar);
+    setEmail(user.email);
   };
 
   useEffect(() => {
     handleGetUserData();
+  }, []);
+
+  useEffect(() => {
     setImgSrc(
       avatarURL ||
         `https://api.dicebear.com/7.x/identicon/svg?rowColor=8be9fd,50fa7b,ffb86c,ff79c6,bd93f9,ff5555,f1fa8c&backgroundColor=44475a,f8f8f2,6272a4&seed=${username}`
     );
-  }, [username, avatarURL]);
+  }, [avatarURL]);
 
   return (
     <React.Fragment>

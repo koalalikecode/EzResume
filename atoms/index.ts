@@ -10,6 +10,7 @@ import { atom } from "jotai";
 
 export const usernameAtom = atom<string>("");
 export const avatarAtom = atom<string>("");
+export const emailAtom = atom<string>("");
 
 export const personalInfoAtom = atom<IPersonalInfo>({
   resumeName: "Untitled Resume",

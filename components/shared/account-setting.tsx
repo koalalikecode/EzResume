@@ -16,8 +16,8 @@ import {
   colors,
   animals,
 } from "unique-names-generator";
-import { useAtom } from "jotai";
-import { avatarAtom, usernameAtom } from "@/atoms";
+import { useAtom, useAtomValue } from "jotai";
+import { avatarAtom, emailAtom, usernameAtom } from "@/atoms";
 import Image from "next/image";
 
 export default function AccountSettingDialog({
@@ -34,6 +34,10 @@ export default function AccountSettingDialog({
   const [ava, setAva] = useState<any>(null);
   const [avaUrl, setAvaUrl] = useAtom(avatarAtom);
   const [name, setName] = useAtom(usernameAtom);
+  const email = useAtomValue(emailAtom);
+
+  const [tempAvaURL, setTempAvaURL] = useState(avaUrl);
+  const [tempName, setTempName] = useState(name);
 
   const tempImgSrc = `https://api.dicebear.com/7.x/identicon/svg?rowColor=8be9fd,50fa7b,ffb86c,ff79c6,bd93f9,ff5555,f1fa8c&backgroundColor=44475a,f8f8f2,6272a4&seed=${name}`;
 
@@ -44,24 +48,27 @@ export default function AccountSettingDialog({
     };
 
     const nameFromSeed: string = uniqueNamesGenerator(config);
-    const { data, error } = await supabase.storage
-      .from("ava-image")
-      .upload(`public/${nameFromSeed}.png`, ava, {
-        cacheControl: "3600",
-        upsert: false,
-      });
+    if (ava) {
+      await supabase.storage
+        .from("ava-image")
+        .upload(`public/${nameFromSeed}.png`, ava, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+    }
 
     const { data: link } = supabase.storage
       .from("ava-image")
       .getPublicUrl(`public/${nameFromSeed}.png`);
 
-    setAvaUrl(link.publicUrl);
+    ava && setAvaUrl(link.publicUrl);
+    setName(tempName);
 
     await fetch("/api/user/update", {
       method: "PUT",
       body: JSON.stringify({
         id: userId,
-        updateValues: { avatar: link.publicUrl, name: name },
+        updateValues: { avatar: link.publicUrl, name: tempName },
       }),
       headers: {
         "Content-Type": "application/json",
@@ -90,8 +97,8 @@ export default function AccountSettingDialog({
           <div className="flex items-center flex-col">
             <div className="avatar my-4">
               <div className="w-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                {avaUrl ? (
-                  <Image src={avaUrl} alt="avatar" width={80} height={80} />
+                {tempAvaURL ? (
+                  <Image src={tempAvaURL} alt="avatar" width={80} height={80} />
                 ) : (
                   <img src={tempImgSrc} alt="avatar" />
                 )}
@@ -105,7 +112,7 @@ export default function AccountSettingDialog({
                 const reader = new FileReader();
 
                 reader.onloadend = function (e) {
-                  setAvaUrl(e?.target?.result as string);
+                  setTempAvaURL(e?.target?.result as string);
                 };
 
                 if (e.target.files) {
@@ -124,11 +131,8 @@ export default function AccountSettingDialog({
               type="email"
               disabled
               fullWidth
-              value={"duykhanhchi1993@gmail.com"}
+              value={email}
               variant="standard"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
             />
             <TextField
               autoFocus
@@ -136,11 +140,11 @@ export default function AccountSettingDialog({
               id="name"
               label="Your full name"
               type="text"
-              value={name}
+              value={tempName}
               fullWidth
               variant="standard"
               onChange={(e) => {
-                setName(e.target.value);
+                setTempName(e.target.value);
               }}
             />
           </ThemeProvider>
@@ -148,7 +152,11 @@ export default function AccountSettingDialog({
         <DialogActions className="!px-6 !pb-4 gap-1 items-center">
           <button
             className="btn btn-neutral btn-sm btn-outline"
-            onClick={handleClose}
+            onClick={() => {
+              setTempAvaURL(avaUrl);
+              setTempName(name);
+              handleClose();
+            }}
           >
             Cancel
           </button>
